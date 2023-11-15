@@ -3,5 +3,10 @@
 <view>搜索变压器型号</view>
 </view>
 
-<button type="primary">添加变压器</button>
-<button type="warn">删除变压器</button>
+<button type="primary" bind:tap="onAdd">添加变压器</button>
+<button type="warn" bind:tap="onDelete">删除变压器</button>
+
+<view wx:for="{{transSelectedList}}" wx:for-index="i" wx:for-item="transformer">
+<view>{{transformer.price}}</view>
+<view>{{transformer.name}}</view>
+</view>
