@@ -1,7 +1,9 @@
 .main-page-image{
   width: 100%;
+  border-radius: 5px;
 }
 
 .box{
+  padding: 2%;
   width: 47%;
 }

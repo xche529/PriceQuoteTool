@@ -2,3 +2,6 @@
 <view> <image src="../../image/Search.jpg" class="main-page-image" mode= "widthFix"></image></view>
 <view>搜索变压器型号</view>
 </view>
+
+<button type="primary">添加变压器</button>
+<button type="warn">删除变压器</button>
