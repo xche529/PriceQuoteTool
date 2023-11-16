@@ -35,7 +35,7 @@
   <view>价格： {{transformer.price}}元</view>
 </view>
 
-<button class="bottomButton" type="primary" size="mini">结算</button>
+<button class="bottomButton" type="primary" size="mini" bind:tap="onResult">结算</button>
 
 <view class= "bottomBlock">
 没了

@@ -52,6 +52,11 @@ Page({
     wx.navigateTo({
       url: '/pages/select/select'
     });
-    
+  },
+
+  onResult: function(){
+    wx.navigateTo({
+      url: '/pages/result/result'
+    });
   }
 })
