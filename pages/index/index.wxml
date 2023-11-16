@@ -1,12 +1,42 @@
-<view class = "box">
-<view> <image src="../../image/Search.jpg" class="main-page-image" mode= "widthFix"></image></view>
-<view>搜索变压器型号</view>
+<template name="transformer">
+  <view>型号： {{name}} {{material}}</view>
+  <view>电压： {{voltage}}kV</view>
+  <vied>容量： {{capacity}}kVA</vied>
+  <view>价格： {{price}}元</view>
+</template>
+
+
+<view class="displayBox">
+  <view class="box" bind:tap="onSelect">
+    <view>
+      <image src="../../image/Search.jpg" class="main-page-image" mode="widthFix"></image>
+    </view>
+    <view>选择变压器型号</view>
+  </view>
+
+  <view>
+    <view class="emptyLine"></view>
+    当前选择型号：
+    <view class="emptyLine"></view>
+    <template is="transformer" data="{{...example}}"/>
+  </view>
+
 </view>
+<view class="emptyLine"></view>
 
 <button type="primary" bind:tap="onAdd">添加变压器</button>
 <button type="warn" bind:tap="onDelete">删除变压器</button>
+<view class="emptyLine"></view>
+<text class= "box"> 已选变压器：</text>
+<view wx:for="{{transSelectedList}}" wx:for-index="i" wx:for-item="transformer" class="transformer">
+  <view>型号： {{transformer.name}} {{transformer.material}}</view>
+  <view>电压： {{transformer.voltage}}kV</view>
+  <vied>容量： {{transformer.capacity}}kVA</vied>
+  <view>价格： {{transformer.price}}元</view>
+</view>
 
-<view wx:for="{{transSelectedList}}" wx:for-index="i" wx:for-item="transformer">
-<view>{{transformer.price}}</view>
-<view>{{transformer.name}}</view>
+<button class="bottomButton" type="primary" size="mini">结算</button>
+
+<view class= "bottomBlock">
+没了
 </view>

@@ -6,4 +6,32 @@
 .box{
   padding: 2%;
   width: 47%;
+  
+}
+
+.transformer{
+  width: 95%;
+  padding: 1%;
+  margin: 1%;
+  border-color: black;
+  border-style: solid;
+}
+
+.displayBox{
+  display:flex
+}
+
+.emptyLine{
+  margin: 7%;
+}
+
+.bottomBlock{
+  margin: 20%;
+  justify-content: center;
+}
+
+.bottomButton{
+  position:fixed;
+  right: 5%;
+  bottom: 5%;
 }

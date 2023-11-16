@@ -12,10 +12,21 @@ Page({
       price: 6500,
       voltage: 10,
       /* 单位kV */
-      matertial: '全铜',
+      material: '全铜',
       id: 1
-    },
-  ]
+    }
+  ],
+
+  example: {
+    name: 'S11',
+    capacity: 20,
+    /*单位kVA*/
+    price: 6500,
+    voltage: 10,
+    /* 单位kV */
+    material: '全铜',
+    id: 1
+  }
   },
 
   onAdd: function() {
@@ -23,7 +34,6 @@ Page({
     let transOne = this.data.transList[0];
     locelTransList.push(transOne);
     console.log('transformer added');
-    console.log(locelTransList);
     this.setData({
       transSelectedList: locelTransList
     })
@@ -36,5 +46,12 @@ Page({
     this.setData({
       transSelectedList: transList
     })
+  },
+
+  onSelect: function(){
+    wx.navigateTo({
+      url: '/pages/select/select'
+    });
+    
   }
 })
