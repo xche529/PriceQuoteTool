@@ -15,9 +15,9 @@ Page({
     let totalCost = 0
 
     this.data.selectedList.forEach(function (transformer) {
-      totalCost += transformer.price;
+      totalCost += transformer.price * transformer.costFactor / 100;
     }, this);
-
+    totalCost = totalCost.toFixed(2);
     console.log(totalCost)
     this.setData({totalCost: totalCost});
   },
