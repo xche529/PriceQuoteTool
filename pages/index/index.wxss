@@ -43,4 +43,10 @@
   margin-right: 2%;
   font-size: 30px;
 }
+.deleteButton{
+  margin-top: 45%;
+}
+.picker{
+  margin: 5%;
+}
 

@@ -1,7 +1,18 @@
 const app = getApp()
 
 Page({
+  onLoad: function(){
+    let numberArray = [];
+    for (var i = -100 ; i <= 200; i++) {
+      numberArray.push(i.toString());
+    }
+    this.setData({
+      costFactorArray: numberArray
+    });
+  },
+
   data: {
+    costFactorArray: [],
     selectedList: [],
     transList: [{
       name: 'S11',
@@ -11,7 +22,7 @@ Page({
       voltage: 10,
       /* 单位kV */
       material: '全铜',
-      costFacter: 100,
+      costFactor: 100,
       id: 1
     }],
 
@@ -23,7 +34,7 @@ Page({
       voltage: 10,
       /* 单位kV */
       material: '全铜',
-      costFacter: 100,
+      costFactor: 100,
       id: 1
     }
   },
