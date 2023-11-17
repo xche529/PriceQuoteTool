@@ -11,6 +11,7 @@ Page({
       voltage: 10,
       /* 单位kV */
       material: '全铜',
+      costFacter: 100,
       id: 1
     }],
 
@@ -22,6 +23,7 @@ Page({
       voltage: 10,
       /* 单位kV */
       material: '全铜',
+      costFacter: 100,
       id: 1
     }
   },
@@ -51,5 +53,16 @@ Page({
     wx.navigateTo({
       url: '/pages/result/result'
     });
+  },
+
+  
+  deleteTransformer: function (event) {
+    let index = event.currentTarget.dataset.index;
+    let selectedList = this.data.selectedList;
+    selectedList.splice(index, 1);
+    this.setData({
+      selectedList: selectedList
+    });
   }
+
 })
