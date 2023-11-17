@@ -41,17 +41,10 @@ Page({
 
   onAdd: function () {
     let localTransList = getApp().globalData.transSelectedList;
-    let transOne = this.data.transList[0];
+    let transOne = { ...this.data.transList[0] };
     localTransList.push(transOne);
     console.log('transformer added');
     this.setData({selectedList: localTransList});
-  },
-
-  onDelete: function () {
-    let transList = getApp().globalData.transSelectedList;
-    transList.pop();
-    console.log('transformer deleted');
-    this.setData({selectedList: transList});
   },
 
   onSelect: function () {
@@ -67,13 +60,22 @@ Page({
   },
 
   
-  deleteTransformer: function (event) {
+  onDeleteTransformer: function (event) {
     let index = event.currentTarget.dataset.index;
     let selectedList = this.data.selectedList;
     selectedList.splice(index, 1);
     this.setData({
       selectedList: selectedList
     });
-  }
+  },
 
+  onChangePriceFactor: function(event){
+    let costFactor = event.detail.value - 100;
+    console.log('new factor:', costFactor)
+    let index = event.currentTarget.dataset.index;
+    let selectedList = this.data.selectedList;
+    selectedList[index].costFactor = costFactor;
+    this.setData({selectedList: selectedList});
+    console.log('new factor:', costFactor)
+  }
 })

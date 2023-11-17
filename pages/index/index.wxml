@@ -28,17 +28,18 @@
 <view class="emptyLine"></view>
 <text class="box"> 已选变压器：</text>
 <view wx:for="{{selectedList}}" wx:for-index="i" wx:for-item="transformer" class="transformer">
+  <view class="indexNumber">{{1 + i}}</view>
+
   <view>
     <view>型号： {{transformer.name}} {{transformer.material}}</view>
     <view>电压： {{transformer.voltage}}kV</view>
     <vied>容量： {{transformer.capacity}}kVA</vied>
     <view>价格： {{transformer.price}}元</view>
   </view>
-  <view class="indexNumber">{{1 + i}}</view>
-  <view>
-    <picker range="{{costFactorArray}}" value="{{transformer.costFactor + 100}}" class="picker">选择报价</picker>
+  <view class="picker">
+    <picker range="{{costFactorArray}}" value="{{transformer.costFactor + 100}}" bindchange= "onChangePriceFactor" data-index="{{i}}">选择报价: {{transformer.costFactor}}%</picker>
   </view>
-  <view><button type="warn" size="mini" bind:tap="deleteTransformer" data-index="{{index}}" class="deleteButton">删除</button></view>
+  <view><button type="warn" size="mini" bind:tap="onDeleteTransformer" data-index="{{i}}" class="deleteButton">删除</button></view>
 </view>
 <button class="bottomButton" type="primary" size="mini" bind:tap="onResult">结算</button>
 
