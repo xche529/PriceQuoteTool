@@ -10,6 +10,7 @@
 }
 
 .transformer{
+  display:flex;
   width: 95%;
   padding: 1%;
   margin: 1%;
@@ -34,4 +35,11 @@
   position:fixed;
   right: 5%;
   bottom: 5%;
+}
+
+.indexNumber{
+  margin-top: 8%;
+  margin-left: 2%;
+  margin-right: 2%;
+  font-size: 30px;
 }

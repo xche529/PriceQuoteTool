@@ -1,3 +1,10 @@
 <view>
-
+总价格：{{totalCost}}元
+</view>
+<Text>明细：</Text>
+<view wx:for="{{selectedList}}" wx:for-index="i" wx:for-item="transformer" class="transformer">
+  <view>型号： {{transformer.name}} {{transformer.material}}</view>
+  <view>电压： {{transformer.voltage}}kV</view>   
+  <vied>容量： {{transformer.capacity}}kVA</vied>
+  <view>价格： {{transformer.price}}元</view>
 </view>

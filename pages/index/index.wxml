@@ -29,10 +29,14 @@
 <view class="emptyLine"></view>
 <text class="box"> 已选变压器：</text>
 <view wx:for="{{selectedList}}" wx:for-index="i" wx:for-item="transformer" class="transformer">
+<view>
   <view>型号： {{transformer.name}} {{transformer.material}}</view>
   <view>电压： {{transformer.voltage}}kV</view>   
   <vied>容量： {{transformer.capacity}}kVA</vied>
   <view>价格： {{transformer.price}}元</view>
+</view>
+<view class="indexNumber">{{1 + i}}</view>
+
 </view>
 
 <button class="bottomButton" type="primary" size="mini" bind:tap="onResult">结算</button>
@@ -40,3 +44,4 @@
 <view class="bottomBlock">
   没了
 </view>
+

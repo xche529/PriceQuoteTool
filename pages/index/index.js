@@ -17,7 +17,7 @@ Page({
     example: {
       name: 'S11',
       capacity: 20,
-      /*单位kVA*/
+      /* 单位kVA */
       price: 6500,
       voltage: 10,
       /* 单位kV */

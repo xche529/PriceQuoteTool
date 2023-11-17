@@ -1,0 +1,7 @@
+.transformer{
+  width: 95%;
+  padding: 1%;
+  margin: 1%;
+  border-color: black;
+  border-style: solid;
+}
