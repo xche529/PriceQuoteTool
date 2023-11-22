@@ -1,5 +1,7 @@
 {
     "description": "项目配置文件",
+    "cloudfunctionRoot": "cloudfunctions/",
+    "miniprogramRoot": "pricequotetool/",
     "packOptions": {
         "ignore": [],
         "include": []
@@ -48,5 +50,6 @@
     "editorSetting": {
         "tabIndent": "insertSpaces",
         "tabSize": 4
-    }
+    },
+    "srcMiniprogramRoot": "pricequotetool/"
 }
