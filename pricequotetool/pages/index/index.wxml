@@ -26,7 +26,13 @@
 
 <button type="primary" bind:tap="onAdd">添加变压器</button>
 <view class="emptyLine"></view>
-<button type="primary" bind:tap="">一键修改报价</button>
+
+<view class="displayBoxWithMargin">
+<view>修改全部报价：</view>
+<input class="inputBar"type="degit" placeholder="请输入百分比" value="{{inputCostFactor}}" bindinput="onInputAllCostFactor"/>
+<button type="primary" size="mini" bind:tap="onUpdateAllCostFactor">应用</button>
+</view>
+
 <view class="emptyLine"></view>
 <text class="box"> 已选变压器：</text>
 <view wx:for="{{selectedList}}" wx:for-index="i" wx:for-item="transformer" class="transformer">
