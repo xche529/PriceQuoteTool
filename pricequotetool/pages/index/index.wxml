@@ -23,7 +23,7 @@
 
 </view>
 <view class="emptyLine"></view>
-<button type="primary" bind:tap="onCalculator">暂时功能：通用价格计算器</button>
+<button type="primary" bind:tap="onCalculator">暂时功能：价格计算器</button>
 
 <view class="emptyLine"></view>
 <button type="primary" bind:tap="onAdd">添加变压器</button>

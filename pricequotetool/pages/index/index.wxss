@@ -6,11 +6,11 @@
 .box{
   padding: 2%;
   width: 47%;
-  
 }
 
 .transformer{
   display:flex;
+  align-items: center;
   width: 95%;
   padding: 1%;
   margin: 1%;
@@ -44,14 +44,13 @@
 }
 
 .indexNumber{
-  margin-top: 8%;
   margin-left: 2%;
   margin-right: 2%;
   font-size: 30px;
 }
 
 .deleteButton{
-  margin-top: 45%;
+  right: 1%;
 }
 
 .picker{

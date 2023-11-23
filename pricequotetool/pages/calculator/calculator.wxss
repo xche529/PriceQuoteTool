@@ -1,0 +1,56 @@
+
+.transformer{
+  display:flex;
+  align-items: center;
+  width: 95%;
+  padding: 1%;
+  margin: 1%;
+  border-color: black;
+  border-style: solid;
+}
+
+.box{
+  padding: 2%;
+  width: 47%;
+}
+
+
+.displayBox{
+  display:flex;
+  margin: 5%;
+}
+
+.displayBoxWithMargin{
+  width: 100%;
+  display:flex;
+  align-items: center;
+  margin: 2%;
+}
+
+.emptyLine{
+  margin: 7%;
+}
+
+.bottomBlock{
+  margin: 20%;
+  justify-content: center;
+}
+
+.indexNumber{
+  margin-left: 2%;
+  margin-right: 2%;
+  font-size: 30px;
+}
+
+.picker{
+  width: 25%;
+  margin: 3%;
+}
+
+.inputBar{
+  width: 35%;
+}
+
+.rightButton{
+  margin-left: auto;
+}
