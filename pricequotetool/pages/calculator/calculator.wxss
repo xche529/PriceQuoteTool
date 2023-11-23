@@ -2,16 +2,12 @@
 .transformer{
   display:flex;
   align-items: center;
-  width: 95%;
-  padding: 1%;
-  margin: 1%;
-  border-color: black;
-  border-style: solid;
+  width: 100%;
 }
 
 .box{
   padding: 2%;
-  width: 47%;
+  width: 100%;
 }
 
 
@@ -49,6 +45,14 @@
 
 .inputBar{
   width: 35%;
+}
+
+.infoBar{
+  width: 95%;
+  padding: 1%;
+  margin: 1%;
+  border-color: black;
+  border-style: solid;
 }
 
 .rightButton{

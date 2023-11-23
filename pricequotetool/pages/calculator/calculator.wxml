@@ -1,13 +1,15 @@
-<view class="displayBox">
+<view>
   <view class="box">
     <view>原价：{{totalPrice}}元</view>
-    <view>报价价格：</view>
-    <view>差价：</view>
-    <view>税后价格：</view>
-    <view>税费：</view>
+    <view>报价：{{finalPrice}}元</view>
+    <view>差价：{{priceDifference}}元</view>
+    <view>税后：{{finalPriceTaxed}}元</view>
+    <view>税费：{{taxCost}}元</view>
   </view>
+  <view class="emptyLine"></view>
+
   <view class="box">
-    <view>税率：{{tax}}%</view>
+    <view>税率：{{taxRate}}%</view>
     <view>数量：{{quantity}}个</view>
   </view>
 </view>
@@ -28,25 +30,33 @@
 
 <view class="displayBoxWithMargin">
   <view>填写所有税率：</view>
-  <input class="inputBar" type="degit" placeholder="请输入百分比" value="{{inputCostFactor}}" bindinput="onInputAllCostFactor" />
-  <button class="rightButton" type="primary" size="mini" bind:tap="onUpdateAllCostFactor">应用</button>
+  <input class="inputBar" type="degit" placeholder="请输入百分比" value="{{inputTax}}" bindinput="onInputTax" />
+  <button class="rightButton" type="primary" size="mini" bind:tap="onUpdateTax">应用</button>
 </view>
 
 
 <view class="emptyLine"></view>
 <text class="box"> 已选变压器：</text>
 
-<view wx:for="{{selectedList}}" wx:for-index="i" wx:for-item="transformer" class="transformer">
-  <view class="indexNumber">{{1 + i}}</view>
+<view wx:for="{{selectedList}}" wx:for-index="i" wx:for-item="transformer" class="infoBar">
+  <view class="transformer">
+    <view class="indexNumber">{{1 + i}}</view>
 
-  <view>
-    <view>价格： {{transformer.price}}元</view>
-    <view>数量： {{transformer.quantity}}个</view>
+    <view>
+      <view>输入价格：</view>
+      <view>
+        <input type="degit" placeholder="请输入价格" data-index="{{i}}" value="{{transformer.price}}" />
+      </view>
+
+      <view>数量： {{transformer.quantity}}个</view>
+    </view>
+    <view>
+      <picker range="{{pickerArray}}" value="{{transformer.costFactor + 100}}" bindchange="onChangePriceFactor" data-index="{{i}}">选择报价: {{transformer.costFactor}}%</picker>
+    </view>
+    <view><button type="warn" size="mini" bind:tap="onDeleteTransformer" data-index="{{i}}" class="rightButton">删除</button></view>
   </view>
-  <view class="picker">
-    <picker range="{{costFactorArray}}" value="{{transformer.costFactor + 100}}" bindchange="onChangePriceFactor" data-index="{{i}}">选择报价: {{transformer.costFactor}}%</picker>
-  </view>
-  <view><button type="warn" size="mini" bind:tap="onDeleteTransformer" data-index="{{i}}" class="rightButton">删除</button></view>
+  <view class="emptyLine"></view>
+  <button type="primary">更新信息</button>
 </view>
 
 <view class="bottomBlock">
