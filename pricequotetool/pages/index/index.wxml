@@ -11,7 +11,7 @@
     <view>
       <image src="../../image/Search.jpg" class="main-page-image" mode="widthFix"></image>
     </view>
-    <view>选择变压器型号</view>
+    <view>选择变压器型号（未开放）</view>
   </view>
 
   <view>
@@ -23,7 +23,9 @@
 
 </view>
 <view class="emptyLine"></view>
+<button type="primary" bind:tap="onCalculator">暂时功能：通用价格计算器</button>
 
+<view class="emptyLine"></view>
 <button type="primary" bind:tap="onAdd">添加变压器</button>
 <view class="emptyLine"></view>
 

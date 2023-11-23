@@ -64,6 +64,12 @@ Page({
     });
   },
 
+  onCalculator: function () {
+    wx.navigateTo({
+      url: '/pages/calculator/calculator'
+    });
+  },
+
   onDeleteTransformer: function (event) {
     let index = event.currentTarget.dataset.index;
     let selectedList = this.data.selectedList;
@@ -102,7 +108,7 @@ Page({
       this.setData({
         inputCostFactor: numericValue
       })
-      this.updateAllCostFactor();
+      this.updateAllCostFactor(numericValue);
     } else {
       wx.showToast({
         title: '请输入正确的数字',
@@ -113,11 +119,10 @@ Page({
     }
   },
 
-  updateAllCostFactor: function () {
-    let costFactor = this.inputCostFactor;
+  updateAllCostFactor: function (value) {
     let selectedList = this.data.selectedList;
     selectedList.forEach(transformer => {
-      transformer.costFactor = costFactor;
+      transformer.costFactor = value;
     });
     this.setData({
       selectedList: selectedList
