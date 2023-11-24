@@ -1,11 +1,13 @@
 <view>
-  <view class="box">
+  <view class="topBox">
     <view>原价：{{totalPrice}}元</view>
     <view>报价：{{finalPrice}}元</view>
     <view>差价：{{priceDifference}}元</view>
     <view>税后：{{finalPriceTaxed}}元</view>
     <view>税费：{{taxCost}}元</view>
   </view>
+  <view class="topBlock">  </view>
+
   <view class="emptyLine"></view>
 
   <view class="box">
@@ -13,9 +15,6 @@
     <view>数量：{{quantity}}个</view>
   </view>
 </view>
-
-
-
 
 <view class="emptyLine"></view>
 <button type="primary" bind:tap="onAdd">添加变压器</button>
@@ -42,21 +41,24 @@
   <view class="transformer">
     <view class="indexNumber">{{1 + i}}</view>
 
-    <view>
-      <view>输入价格：</view>
+    <view class="transformerPrice">
+      <view>当前价格：{{transformer.price}}元</view>
       <view>
-        <input type="degit" placeholder="请输入价格" data-index="{{i}}" value="{{transformer.price}}" />
+        <input type="degit" placeholder="请输入新价格" bindinput="onInputPrice" data-index="{{i}}" value="{{transformer.inputPrice}}" />
       </view>
 
       <view>数量： {{transformer.quantity}}个</view>
     </view>
     <view>
-      <picker range="{{pickerArray}}" value="{{transformer.costFactor + 100}}" bindchange="onChangePriceFactor" data-index="{{i}}">选择报价: {{transformer.costFactor}}%</picker>
+      <picker range="{{pickerArray}}" value="{{transformer.costFactor + 100}}" bindchange="onChangePriceFactor" data-index="{{i}}" class="picker">选择报价: {{transformer.costFactor}}%</picker>
     </view>
-    <view><button type="warn" size="mini" bind:tap="onDeleteTransformer" data-index="{{i}}" class="rightButton">删除</button></view>
+
   </view>
   <view class="emptyLine"></view>
-  <button type="primary">更新信息</button>
+  <view class="displayBox">
+    <button type="primary" bind:tap="onUpdatePrice" data-index="{{i}}">更新价格</button>
+    <button type="warn" bind:tap="onDeleteTransformer" data-index="{{i}}">删除</button>
+  </view>
 </view>
 
 <view class="bottomBlock">

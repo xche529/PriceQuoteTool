@@ -9,7 +9,14 @@
   padding: 2%;
   width: 100%;
 }
-
+.topBox{
+  z-index: 999;
+  padding: 2%;
+  width: 100%;
+  position: fixed;
+  top: 0%;
+  background-color: blanchedalmond;
+}
 
 .displayBox{
   display:flex;
@@ -39,8 +46,8 @@
 }
 
 .picker{
-  width: 25%;
-  margin: 3%;
+  width: 66%;
+  margin: 0%;
 }
 
 .inputBar{
@@ -57,4 +64,16 @@
 
 .rightButton{
   margin-left: auto;
+}
+
+.transformerPrice{
+  width:55%;
+}
+
+.deleteButton{
+  right: 1%;
+}
+
+.topBlock{
+  margin: 40%;
 }

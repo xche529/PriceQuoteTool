@@ -24,6 +24,7 @@ Page({
     inputCostFactor: '',
     inputTax: '',
     transList: [{
+      inputPrice: '',
       price: 6500,
       costFactor: 100,
       quantity: 1,
@@ -165,32 +166,33 @@ Page({
       inputTax: empty
     });
   },
-  updateAll: function(){
+  updateAll: function () {
     this.updateTotalPrice();
     this.updateFinalCost();
     this.updateQuantity();
-    this.priceDifference = this.finalPrice - this.totalPrice;
-    this.finalPriceTaxed = parseFloat(this.finalPrice) + (parseFloat(this.finalPrice) * parseFloat(this.data.taxRate) / 100);
-    this.taxCost = this.finalPriceTaxed - this.finalPrice;
+    this.priceDifference = (this.finalPrice - this.totalPrice).toFixed(2);
+    this.finalPriceTaxed = (parseFloat(this.finalPrice) + (parseFloat(this.finalPrice) * parseFloat(this.data.taxRate) / 100)).toFixed(2);
+    this.taxCost = (this.finalPriceTaxed - this.finalPrice).toFixed(2);
     this.setData({
       totalPrice: this.totalPrice,
       finalPrice: this.finalPrice,
       priceDifference: this.priceDifference,
       finalPriceTaxed: this.finalPriceTaxed,
       taxCost: this.taxCost,
-      quantity: this.quantity
+      quantity: this.quantity,
+      selectedList: this.data.selectedList
     })
   },
 
-  updateTotalPrice: function(){
+  updateTotalPrice: function () {
     let totalCost = 0
     this.data.selectedList.forEach(function (transformer) {
       totalCost += transformer.price;
     }, this);
     totalCost = totalCost.toFixed(2);
-    this.totalPrice= totalCost;
+    this.totalPrice = totalCost;
   },
-  updateFinalCost: function(){
+  updateFinalCost: function () {
     let finalPrice = 0
     this.data.selectedList.forEach(function (transformer) {
       finalPrice += transformer.price * transformer.costFactor / 100;
@@ -198,12 +200,39 @@ Page({
     finalPrice = finalPrice.toFixed(2);
     this.finalPrice = finalPrice;
   },
-  
-  updateQuantity: function(){
+
+  updateQuantity: function () {
     let quantity = 0
     this.data.selectedList.forEach(function (transformer) {
       quantity += transformer.quantity;
     }, this);
     this.quantity = quantity;
+  },
+
+  onInputPrice: function (event) {
+    let value = event.detail.value;
+    let index = event.currentTarget.dataset.index;
+    let selectedList = this.data.selectedList;
+    selectedList[index].inputPrice = value;
+  },
+
+  onUpdatePrice: function (event) {
+    let index = event.currentTarget.dataset.index;
+    let selectedList = this.data.selectedList;
+
+    let numericValue = parseFloat(selectedList[index].inputPrice);
+    console.log(numericValue)
+    if (!isNaN(numericValue)) {
+      selectedList[index].price = numericValue;
+    } else {
+      wx.showToast({
+        title: '请输入正确的数字',
+        icon: 'none',
+        duration: 2000,
+      });
+      selectedList[index].inputPrice = '';
+    }
+    this.updateAll();
   }
+
 })
