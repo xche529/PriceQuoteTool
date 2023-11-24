@@ -11,7 +11,7 @@
     <view>价格： {{transformer.price}}元</view>
   </view>
   <view>
-    <view class="priceInfo">相乘系数：{{transformer.costFactor}}</view>
-    <view>最终价格：{{(transformer.costFactor * transformer.price / 100)}}</view>
+    <view class="priceInfo">相乘系数：{{transformer.costFactor}}%</view>
+    <view>最终价格：{{(transformer.costFactor * transformer.price / 100)}}元</view>
   </view>
 </view>

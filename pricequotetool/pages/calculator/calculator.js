@@ -40,9 +40,7 @@ Page({
     };
     localTransList.push(transOne);
     console.log('transformer added');
-    this.setData({
-      selectedList: localTransList
-    });
+    this.selectedList = localTransList;
     this.updateAll();
   },
 
@@ -50,9 +48,6 @@ Page({
     let index = event.currentTarget.dataset.index;
     let selectedList = this.data.selectedList;
     selectedList.splice(index, 1);
-    this.setData({
-      selectedList: selectedList
-    });
     this.updateAll();
   },
 
@@ -62,9 +57,6 @@ Page({
     let index = event.currentTarget.dataset.index;
     let selectedList = this.data.selectedList;
     selectedList[index].costFactor = costFactor;
-    this.setData({
-      selectedList: selectedList
-    });
     console.log('new factor:', costFactor)
     this.updateAll();
   },
@@ -75,23 +67,15 @@ Page({
     let index = event.currentTarget.dataset.index;
     let selectedList = this.data.selectedList;
     selectedList[index].costFactor = costFactor;
-    this.setData({
-      selectedList: selectedList
-    });
-    console.log('new factor:', costFactor)
     this.updateAll();
   },
 
   onChangeQuantity: function (event) {
-    let costFactor = event.detail.value - 100;
-    console.log('new factor:', costFactor)
+    let quantity = event.detail.value - 100;
+    console.log('new quantity:', quantity)
     let index = event.currentTarget.dataset.index;
     let selectedList = this.data.selectedList;
-    selectedList[index].costFactor = costFactor;
-    this.setData({
-      selectedList: selectedList
-    });
-    console.log('new factor:', costFactor)
+    selectedList[index].quantity = quantity;
     this.updateAll();
   },
 
@@ -187,7 +171,7 @@ Page({
   updateTotalPrice: function () {
     let totalCost = 0
     this.data.selectedList.forEach(function (transformer) {
-      totalCost += transformer.price;
+      totalCost += transformer.price * transformer.quantity;
     }, this);
     totalCost = totalCost.toFixed(2);
     this.totalPrice = totalCost;
@@ -195,7 +179,7 @@ Page({
   updateFinalCost: function () {
     let finalPrice = 0
     this.data.selectedList.forEach(function (transformer) {
-      finalPrice += transformer.price * transformer.costFactor / 100;
+      finalPrice += transformer.price * transformer.costFactor  * transformer.quantity / 100;
     }, this);
     finalPrice = finalPrice.toFixed(2);
     this.finalPrice = finalPrice;
@@ -219,7 +203,6 @@ Page({
   onUpdatePrice: function (event) {
     let index = event.currentTarget.dataset.index;
     let selectedList = this.data.selectedList;
-
     let numericValue = parseFloat(selectedList[index].inputPrice);
     console.log(numericValue)
     if (!isNaN(numericValue)) {
@@ -230,8 +213,8 @@ Page({
         icon: 'none',
         duration: 2000,
       });
-      selectedList[index].inputPrice = '';
     }
+    selectedList[index].inputPrice = '';
     this.updateAll();
   }
 

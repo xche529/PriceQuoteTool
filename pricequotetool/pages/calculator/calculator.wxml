@@ -46,8 +46,9 @@
       <view>
         <input type="degit" placeholder="请输入新价格" bindinput="onInputPrice" data-index="{{i}}" value="{{transformer.inputPrice}}" />
       </view>
+      <view class="emptyLine"></view>
 
-      <view>数量： {{transformer.quantity}}个</view>
+      <picker range="{{pickerArray}}" value="{{transformer.quantity + 100}}" bindchange="onChangeQuantity" data-index="{{i}}" >修改数量: {{transformer.quantity}}个</picker>
     </view>
     <view>
       <picker range="{{pickerArray}}" value="{{transformer.costFactor + 100}}" bindchange="onChangePriceFactor" data-index="{{i}}" class="picker">选择报价: {{transformer.costFactor}}%</picker>
