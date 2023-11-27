@@ -3,5 +3,6 @@
     "projectname": "PriceQuoteTool",
     "setting": {
         "compileHotReLoad": true
-    }
+    },
+    "libVersion": "3.1.5"
 }

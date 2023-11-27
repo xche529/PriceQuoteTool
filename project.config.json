@@ -20,7 +20,7 @@
         "minified": true,
         "autoAudits": false,
         "newFeature": false,
-        "uglifyFileName": false,
+        "uglifyFileName": true,
         "uploadWithSourceMap": true,
         "useIsolateContext": true,
         "nodeModules": false,
@@ -29,7 +29,7 @@
         "useApiHook": true,
         "useApiHostProcess": true,
         "showShadowRootInWxmlPanel": true,
-        "packNpmManually": false,
+        "packNpmManually": true,
         "enableEngineNative": false,
         "packNpmRelationList": [],
         "minifyWXSS": true,
@@ -40,7 +40,8 @@
             "disablePlugins": [],
             "outputPath": ""
         },
-        "ignoreUploadUnusedFiles": true
+        "ignoreUploadUnusedFiles": false,
+        "condition": true
     },
     "compileType": "miniprogram",
     "libVersion": "2.19.4",

@@ -150,6 +150,7 @@ Page({
       inputTax: empty
     });
   },
+  
   updateAll: function () {
     this.updateTotalPrice();
     this.updateFinalCost();
@@ -176,6 +177,7 @@ Page({
     totalCost = totalCost.toFixed(2);
     this.totalPrice = totalCost;
   },
+
   updateFinalCost: function () {
     let finalPrice = 0
     this.data.selectedList.forEach(function (transformer) {

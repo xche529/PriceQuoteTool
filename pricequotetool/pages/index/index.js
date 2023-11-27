@@ -54,7 +54,7 @@ Page({
 
   onSelect: function () {
     wx.navigateTo({
-      url: '/pages/select/select'
+      url: '/pages/canvas/canvas'
     });
   },
 

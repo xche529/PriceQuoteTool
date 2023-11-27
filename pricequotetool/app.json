@@ -4,7 +4,8 @@
     "pages/logs/logs",
     "pages/select/select",
     "pages/result/result",
-    "pages/calculator/calculator"
+    "pages/calculator/calculator",
+    "pages/canvas/canvas"
   ],
   "window":{
     "backgroundTextStyle":"light",
