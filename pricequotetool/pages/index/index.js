@@ -26,18 +26,6 @@ Page({
       costFactor: 100,
       id: 1
     }],
-
-    example: {
-      name: 'S11',
-      capacity: 20,
-      /* 单位kVA */
-      price: 6500,
-      voltage: 10,
-      /* 单位kV */
-      material: '全铜',
-      costFactor: 100,
-      id: 1
-    }
   },
 
   onAdd: function () {
@@ -54,7 +42,7 @@ Page({
 
   onSelect: function () {
     wx.navigateTo({
-      url: '/pages/canvas/canvas'
+      url: '/pages/select/select'
     });
   },
 
