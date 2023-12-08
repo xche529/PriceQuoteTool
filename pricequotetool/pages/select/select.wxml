@@ -1,5 +1,15 @@
 <view>
   <view class="emptyLine"></view>
+  <checkbox>使用容量搜索</checkbox>
+  <view class="emptyLine"></view>
+  <picker range="{{capacityArray}}" value="{{selectedCapacityIndex}}" bindchange= "onSelectCapacity" data-index="{{i}}">选择容量: {{selectedCapacityValue}}kVA</picker>
+  <view class="emptyLine"></view>
+  <checkbox>使用电压搜索</checkbox>
+  <view class="emptyLine"></view>
+
+  <picker range="{{capacityArray}}" value="{{selectedCapacityIndex}}" bindchange= "onSelectCapacity" data-index="{{i}}">选择电压: {{selectedCapacityValue}}kVA</picker>
+
+  <view class="emptyLine"></view>
   <button type="primary" bind:tap="onSearch">搜索结果</button>
 </view>
 
