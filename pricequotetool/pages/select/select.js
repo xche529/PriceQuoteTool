@@ -54,7 +54,7 @@ Page({
           selectedCapacityValue: this.data.selectedCapacityValue,
           selectedMaterialValue: this.data.selectedMaterialValue,
           selectedTypeValue: this.data.selectedTypeValue,
-        
+
         })
       }
     })
@@ -81,12 +81,39 @@ Page({
     })
   },
 
-  onSelectMaterial: function(event){
+  onSelectMaterial: function (event) {
+    this.data.selectedMaterialIndex = event.detail.value;
+    this.data.selectedMaterialValue = this.data.materialArray[this.data.selectedMaterialIndex];
+    this.setData({
+      selectedMaterialValue: this.data.selectedMaterialValue
+    })
+  },
+
+  onSelectType: function (event) {
+    this.data.selectedTypeIndex = event.detail.value;
+    this.data.selectedTypeValue = this.data.typeArray[this.data.selectedTypeIndex];
+    this.setData({
+      selectedTypeValue: this.data.selectedTypeValue
+    })
 
   },
 
-  onSelectType: function(event){
+  onSwitchChange: function (event) {
+    console.log(event)
+    if (event.currentTarget.id === 'TSwitch') {
+      this.setData({
+        isUsingType: !this.data.isUsingType
+      })
+    } else if (event.currentTarget.id === 'CSwitch') {
+      this.setData({
+        isUsingCapacity: !this.data.isUsingCapacity
+      })
+    } else {
+      this.setData({
+        isUsingMaterial: !this.data.isUsingMaterial
+      })
 
+    }
   },
 
   setResult: function () {
