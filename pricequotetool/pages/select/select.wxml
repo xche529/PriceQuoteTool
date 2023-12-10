@@ -1,15 +1,29 @@
 <view>
   <view class="emptyLine"></view>
-  <checkbox>使用容量搜索</checkbox>
+  
+  <switch class="switch">使用容量搜索</switch>
   <view class="emptyLine"></view>
-  <picker range="{{capacityArray}}" value="{{selectedCapacityIndex}}" bindchange= "onSelectCapacity" data-index="{{i}}">选择容量: {{selectedCapacityValue}}kVA</picker>
-  <view class="emptyLine"></view>
-  <checkbox>使用电压搜索</checkbox>
-  <view class="emptyLine"></view>
+  <view hidden="{{isUsingCapacity}}">
+    <picker class="picker" range="{{capacityArray}}" value="{{selectedCapacityIndex}}" bindchange="onSelectCapacity" data-index="{{i}}">选择容量: {{selectedCapacityValue}}kVA </picker>
+    <view class="emptyLine"></view>
+  </view>
 
-  <picker range="{{capacityArray}}" value="{{selectedCapacityIndex}}" bindchange= "onSelectCapacity" data-index="{{i}}">选择电压: {{selectedCapacityValue}}kVA</picker>
-
+  <switch class="switch">使用材料搜索</switch>
   <view class="emptyLine"></view>
+  <view hidden="{{isUsingCapacity}}">
+    <picker class="picker" range="{{materialArray}}" value="{{selectedMaterialIndex}}" bindchange="onSelectCapacity" data-index="{{i}}">选择材料: {{selectedMaterialValue}}</picker>
+    <view class="emptyLine"></view>
+  </view>
+
+
+  <switch class="switch">使用型号搜索</switch>
+  <view class="emptyLine"></view>
+  <view hidden="{{isUsingCapacity}}">
+    <picker class="picker" range="{{typeArray}}" value="{{selectedTypeIndex}}" bindchange="onSelectCapacity" data-index="{{i}}">选择型号: {{selectedTypeValue}}</picker>
+
+    <view class="emptyLine"></view>
+  </view>
+
   <button type="primary" bind:tap="onSearch">搜索结果</button>
 </view>
 
@@ -21,7 +35,5 @@
     <view>电压： {{transformer.voltage}}kV</view>
     <vied>容量： {{transformer.capacity}}kVA</vied>
     <view>价格： {{transformer.price}}元</view>
-  </view>
-  <view class="picker">
   </view>
 </view>

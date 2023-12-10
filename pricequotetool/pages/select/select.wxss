@@ -1,3 +1,14 @@
-.emptyLine{
-  margin: 7%;
+.emptyLine {
+  margin: 5%;
+}
+
+.switch {
+  margin-left: 4%;
+  display: flex;
+  align-items: center;
+  
+}
+
+.picker {
+  margin: 4%
 }
