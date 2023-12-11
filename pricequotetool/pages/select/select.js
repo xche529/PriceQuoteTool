@@ -4,18 +4,17 @@ Page({
   data: {
     selectedCapacityIndex: '',
     selectedCapacityValue: '',
-    isUsingCapacity: true,
+    isUsingCapacity: false,
 
     selectedMaterialIndex: 0,
     selectedMaterialValue: '',
-    isUsingMaterial: true,
+    isUsingMaterial: false,
 
     selectedTypeIndex: 0,
     selectedTypeValue: '',
-    isUsingType: true,
+    isUsingType: false,
 
     tempList: [],
-    searchResult: null,
     capacityArray: null,
     materialArray: null,
     typeArray: null,
@@ -54,14 +53,29 @@ Page({
           selectedCapacityValue: this.data.selectedCapacityValue,
           selectedMaterialValue: this.data.selectedMaterialValue,
           selectedTypeValue: this.data.selectedTypeValue,
-
         })
       }
     })
   },
 
   onSearch: function () {
-    db.collection('transformer').get({
+    let filter = {};
+
+    if (this.data.isUsingCapacity) {
+      filter.capacity = _.eq(this.data.selectedCapacityValue);
+    }
+
+    if (this.data.isUsingMaterial) {
+      filter.material = _.eq(this.data.selectedMaterialValue);
+    }
+
+    if (this.data.isUsingType) {
+      filter.type = _.eq(this.data.selectedTypeValue);
+    }
+
+    db.collection('transformer').where(
+      filter
+    ).get({
       success: (res) => {
         console.log(res.data)
         this.searchResult = res.data;
@@ -112,8 +126,19 @@ Page({
       this.setData({
         isUsingMaterial: !this.data.isUsingMaterial
       })
-
     }
+  },
+
+  onSelect: function(event){
+    let index = event.currentTarget.dataset.index;
+    let target = getApp().globalData.selectedTransformer;
+    target = {...this.data.tempList[index]};
+    target.costFactor = 100;
+    getApp().selectTransformer(target);
+    wx.navigateTo({
+      url: '/pages/index/index'
+    });
+
   },
 
   setResult: function () {

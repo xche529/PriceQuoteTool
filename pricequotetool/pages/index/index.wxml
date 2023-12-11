@@ -1,5 +1,6 @@
 <template name="transformer">
-  <view>型号： {{name}} {{material}}</view>
+  <view>型号： {{name}}</view>
+  <view>材料： {{material}}</view>
   <view>电压： {{voltage}}kV</view>
   <vied>容量： {{capacity}}kVA</vied>
   <view>价格： {{price}}元</view>
@@ -11,14 +12,14 @@
     <view>
       <image src="../../image/Search.jpg" class="main-page-image" mode="widthFix"></image>
     </view>
-    <view>选择变压器型号（未开放）</view>
+    <view>选择变压器型号</view>
   </view>
 
   <view>
     <view class="emptyLine"></view>
     当前选择型号：
     <view class="emptyLine"></view>
-    <template is="transformer" data="{{...example}}" />
+    <template is="transformer" data="{{...selectedTransformer}}" />
   </view>
 
 </view>
@@ -41,7 +42,8 @@
   <view class="indexNumber">{{1 + i}}</view>
 
   <view>
-    <view>型号： {{transformer.name}} {{transformer.material}}</view>
+    <view>型号： {{transformer.name}}</view>
+    <view>材料： {{transformer.material}}</view>
     <view>电压： {{transformer.voltage}}kV</view>
     <vied>容量： {{transformer.capacity}}kVA</vied>
     <view>价格： {{transformer.price}}元</view>

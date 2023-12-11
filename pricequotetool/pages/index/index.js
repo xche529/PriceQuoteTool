@@ -3,41 +3,40 @@ const app = getApp()
 Page({
   onLoad: function () {
     let numberArray = [];
+    let localTransList = getApp().globalData.transSelectedList;
     for (var i = -100; i <= 200; i++) {
       numberArray.push(i.toString());
     }
     this.setData({
-      costFactorArray: numberArray
+      selectedTransformer: getApp().globalData.selectedTransformer,
+      costFactorArray: numberArray,
+      selectedList: localTransList
     });
   },
 
   data: {
     costFactorArray: [],
     selectedList: [],
+    selectedTransformer: '',
     inputCostFactor: '',
-    transList: [{
-      name: 'S11',
-      capacity: 20,
-      /* 单位kVA */
-      price: 6500,
-      voltage: 10,
-      /* 单位kV */
-      material: '全铜',
-      costFactor: 100,
-      id: 1
-    }],
   },
 
   onAdd: function () {
     let localTransList = getApp().globalData.transSelectedList;
-    let transOne = {
-      ...this.data.transList[0]
-    };
-    localTransList.push(transOne);
-    console.log('transformer added');
-    this.setData({
-      selectedList: localTransList
-    });
+    let temp = {...getApp().globalData.selectedTransformer};
+    if (temp == ''){
+      wx.showToast({
+        title: '请选择变压器',
+        icon: 'none',
+        duration: 2000,
+      });
+
+    }else{
+      localTransList.push(temp);
+      this.setData({
+        selectedList: localTransList
+      });
+    }
   },
 
   onSelect: function () {

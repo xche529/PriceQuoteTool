@@ -17,7 +17,12 @@ App({
     })
   },
   globalData: {
-    selectedTransformer: null,
+    selectedTransformer: '',
     transSelectedList: [],
+  },
+
+  selectTransformer: function(transformer){
+    this.globalData.selectedTransformer = transformer;
+    console.log(this.globalData.selectedTransformer)
   }
 })
