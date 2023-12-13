@@ -15,3 +15,10 @@
     <view>最终价格：{{(transformer.costFactor * transformer.price / 100)}}元</view>
   </view>
 </view>
+<view class="center-container">
+  <wxml-to-canvas class="widget"></wxml-to-canvas>
+</view>
+<view class="emptyLine"></view>
+<button type="primary" bind:tap="onImg">生成图片</button>
+<view class="emptyLine"></view>
+<button type="primary" bind:tap="onSaveImg">保存图片到手机</button>

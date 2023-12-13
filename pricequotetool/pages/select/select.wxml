@@ -28,9 +28,8 @@
 </view>
 
 <view wx:for="{{tempList}}" wx:for-index="i" wx:for-item="transformer" class="transformer">
-  <view class="indexNumber">{{1 + i}}</view>
 
-  <view data-index='{{i}}' bind:tap="onSelect">
+  <view data-index='{{i}}' bind:tap="onSelect" class="selectButton">
     <view>型号： {{transformer.name}} </view>
     <view>材料： {{transformer.material}}</view>
     <view>电压： {{transformer.voltage}}kV</view>

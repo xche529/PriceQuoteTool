@@ -23,15 +23,20 @@
         "uglifyFileName": true,
         "uploadWithSourceMap": true,
         "useIsolateContext": true,
-        "nodeModules": false,
+        "nodeModules": true,
         "enhance": true,
         "useMultiFrameRuntime": true,
         "useApiHook": true,
         "useApiHostProcess": true,
         "showShadowRootInWxmlPanel": true,
-        "packNpmManually": true,
+        "packNpmManually": false,
         "enableEngineNative": false,
-        "packNpmRelationList": [],
+        "packNpmRelationList": [
+            {
+                "packageJsonPath": "./package.json",
+                "miniprogramNpmDistDir": "./miniprogram/"
+            }
+        ],
         "minifyWXSS": true,
         "showES6CompileOption": false,
         "minifyWXML": true,

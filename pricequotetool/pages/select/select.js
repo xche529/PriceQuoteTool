@@ -37,13 +37,10 @@ Page({
         this.data.capacityArray = res.data[0].capacity;
         this.data.typeArray = res.data[1].type;
         this.data.materialArray = res.data[2].material;
-
-        console.log(res.data[2].material);
         this.data.selectedCapacityIndex = Math.floor(res.data[0].capacity.length / 2);
         this.data.selectedMaterialValue = res.data[2].material[0];
         this.data.selectedTypeValue = res.data[1].type[0];
         this.data.selectedCapacityValue = res.data[0].capacity[this.data.selectedCapacityIndex];
-        console.log(this.data.selectedCapacityValue);
 
         this.setData({
           capacityArray: this.data.capacityArray,
@@ -77,7 +74,6 @@ Page({
       filter
     ).get({
       success: (res) => {
-        console.log(res.data)
         this.searchResult = res.data;
         this.setResult();
       },

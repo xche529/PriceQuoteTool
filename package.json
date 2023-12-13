@@ -1,7 +1,6 @@
 {
   "name": "pricequotetool",
   "version": "1.0.0",
-  "description": "",
   "main": ".eslintrc.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,6 +10,10 @@
   "dependencies": {
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
+    "miniprogram-sm-crypto": "^0.3.13",
     "wxml-to-canvas": "^1.1.1"
-  }
+  },
+  "keywords": [],
+  "devDependencies": {},
+  "description": ""
 }

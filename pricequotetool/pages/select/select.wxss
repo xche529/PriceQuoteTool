@@ -12,3 +12,11 @@
 .picker {
   margin: 4%
 }
+
+.selectButton{
+  padding: 2%;
+  margin:2%;
+  border-radius: 5px;
+  border-color: black;
+  border-style: solid;
+}

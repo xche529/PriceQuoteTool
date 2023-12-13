@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
-  "navigationBarTitleText": "结算界面"
+  "usingComponents": {
+    "wxml-to-canvas": "wxml-to-canvas"
+},
+"navigationBarTitleText": "结算界面"
 }

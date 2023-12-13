@@ -24,14 +24,14 @@ Page({
   onAdd: function () {
     let localTransList = getApp().globalData.transSelectedList;
     let temp = {...getApp().globalData.selectedTransformer};
-    if (temp == ''){
+    if (Object.keys(temp).length === 0){
       wx.showToast({
         title: '请选择变压器',
         icon: 'none',
-        duration: 2000,
+        duration: 2000, 
       });
 
-    }else{
+    }else{ 
       localTransList.push(temp);
       this.setData({
         selectedList: localTransList
