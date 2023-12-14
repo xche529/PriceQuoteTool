@@ -1,6 +1,5 @@
 {
   "usingComponents": {
-    "wxml-to-canvas": "wxml-to-canvas"
 },
 "navigationBarTitleText": "结算界面"
 }

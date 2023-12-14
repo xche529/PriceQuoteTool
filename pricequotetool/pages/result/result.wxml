@@ -16,9 +16,5 @@
   </view>
 </view>
 <view class="center-container">
-  <wxml-to-canvas class="widget"></wxml-to-canvas>
 </view>
-<view class="emptyLine"></view>
-<button type="primary" bind:tap="onImg">生成图片</button>
-<view class="emptyLine"></view>
-<button type="primary" bind:tap="onSaveImg">保存图片到手机</button>
+<button bind:tap="onTest" type="primary"> 生成测试PDF</button>

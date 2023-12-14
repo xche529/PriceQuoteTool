@@ -2,6 +2,7 @@
     "description": "项目配置文件",
     "cloudfunctionRoot": "cloudfunctions/",
     "miniprogramRoot": "pricequotetool/",
+    "restartStrategy": "homePage",
     "packOptions": {
         "ignore": [],
         "include": []
@@ -23,13 +24,13 @@
         "uglifyFileName": true,
         "uploadWithSourceMap": true,
         "useIsolateContext": true,
-        "nodeModules": true,
+        "nodeModules": false,
         "enhance": true,
         "useMultiFrameRuntime": true,
         "useApiHook": true,
         "useApiHostProcess": true,
         "showShadowRootInWxmlPanel": true,
-        "packNpmManually": false,
+        "packNpmManually": true,
         "enableEngineNative": false,
         "packNpmRelationList": [
             {
