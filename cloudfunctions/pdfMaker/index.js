@@ -24,7 +24,7 @@ exports.main = async (event, context) => {
   pdfDoc.registerFontkit(fontkit);
   const font = await pdfDoc.embedFont(fontBytes);
   const page = pdfDoc.addPage();
-  const {
+  let {
     width,
     height
   } = page.getSize();
@@ -35,14 +35,31 @@ exports.main = async (event, context) => {
     size: fontSize,
     font: font
   })
+  transformers.forEach(transformer => {
+    height = height - fontSize
+    page.drawText('规格型号： ' + transformer.name + ' 材料： ' + transformer.material + ' 容量： ' + transformer.capacity + ' 价格： ' + transformer.price, {
+      x: 50,
+      y: height - 4 * fontSize,
+      size: fontSize - 20,
+      font: font
+    })
+
+  });
+
   const pdfBytes = await pdfDoc.save()
   const base64Data = Buffer.from(pdfBytes).toString('base64');
+  const random = Math.random().toString(36).substr(2, 15);
+  const fileName = random + '.json'
   const res = await cloud.uploadFile({
-    cloudPath: 'base64pdf.txt',
-    fileContent: base64Data
+    cloudPath: fileName,
+    fileContent: JSON.stringify({
+      data: base64Data
+    }),
+
   })
   const id = res.fileID;
   return {
-    id
+    id,
+    fileName
   }
 }
