@@ -2,8 +2,7 @@ Page({
   data: {
     selectedList: [],
     totalCost: 0,
-    container: '',
-    isImg: false
+    txtFile: '',
   },
 
   onLoad: function () {
@@ -29,37 +28,64 @@ Page({
   onTest: function () {
     wx.cloud.callFunction({
       name: 'pdfMaker',
-      success: async (res) => {
-        const fs = wx.getFileSystemManager()
-        const filePath = wx.env.USER_DATA_PATH + '/test.pdf';
-        try {
-          console.log(res.result.base64Data)
-          fs.writeFile({
-            filePath: filePath,
-            data: res.result.base64Data,
-            encoding: 'base64',
-            success: () => {
-              console.log('存储成功')
-              wx.openDocument({
-                showMenu:true,
-                filePath,
-                success: (res) => {
-                  console.log('打开文档成功', res);
-                },
-                fail: (err) => {
-                  console.error('打开文档失败', err);
-                },
-              });
-            },
-            fail: (err) => {
-              console.error('存储文档失败', err);
-            }
-          });
-
-        } catch (error) {
-          console.error('转换为base64时出现错误', error);
-        }
+      data: {
+        products: this.data.selectedList,
       },
+      success: async (res) => {
+        console.log(res)
+        const fs = wx.getFileSystemManager()
+        this.downloadID(res.result.id)
+        fs.readFile({
+          filePath: this.data.txtFile,
+          success(res) {
+            this.createPDF(res.data);
+          },
+          fail(res){
+            console.error('读取txt失败',res)
+          }
+        })
+      },
+      fail: (err) => {
+        console.error("调用云函数失败", err);
+      }
     })
   },
+
+  downloadID: function (id) {
+    wx.cloud.downloadFile({
+      fileID: id,
+      success: res => {
+        this.data.txtFile = res.tempFilePath;
+        console.log(res)
+      },
+      fail: res=>{
+        console.error('下载txt文件失败',res)
+      }
+    })
+  },
+
+  createPDF: function (base64){
+    const filePath = wx.env.USER_DATA_PATH + '/test.pdf';
+    fs.writeFile({
+      filePath: filePath,
+      data: base64,
+      encoding: 'base64',
+      success: () => {
+        console.log('存储pdf成功')
+        wx.openDocument({
+          showMenu: true,
+          filePath,
+          success: (res) => {
+            console.log('打开pdf成功', res);
+          },
+          fail: (err) => {
+            console.error('打开pdf失败', err);
+          },
+        });
+      },
+      fail: (err) => {
+        console.error('存储pdf失败', err);
+      }
+    });
+  }
 })

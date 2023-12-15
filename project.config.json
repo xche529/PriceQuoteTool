@@ -58,5 +58,6 @@
         "tabIndent": "insertSpaces",
         "tabSize": 4
     },
-    "srcMiniprogramRoot": "pricequotetool/"
+    "srcMiniprogramRoot": "pricequotetool/",
+    "cloudfunctionTemplateRoot": "cloudfunctionTemplate/"
 }
