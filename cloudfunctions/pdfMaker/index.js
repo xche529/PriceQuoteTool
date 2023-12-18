@@ -62,6 +62,5 @@ exports.main = async (event, context) => {
   return {
     id,
     fileName,
-    openid: wxContext.OPENID
   }
 }

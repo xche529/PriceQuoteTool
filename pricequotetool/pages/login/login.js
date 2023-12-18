@@ -1,35 +1,54 @@
 // pages/login.js
 Page({
 
-    /**
-     * 页面的初始数据
-     */
-    data: {
-      isLogin: false,
-      isSignUp: false,
-      isAdmin: false,
-      tempNickName: '',
-      tempAvatar: '',
-    },
+  data: {
+    isLogin: false,
+    isSignUp: false,
+    isAdmin: false,
+    tempNickName: '',
+    tempAvatar: '../../image/Search.jpg',
+  },
 
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad(options) {
+  onLoad() {
+    wx.cloud.callFunction({
+      name: 'signUpAndLogin',
+      data: {
+        isSignUp: false
+      },
+      success: res =>{
+        console.log(res)
+      }
+    })
+  },
 
-    },
+  onSignUp() {
+    this.setData({
+      isSignUp: true
+    })
+  },
 
-    onSignUp(){
-      this.setData({
-        isSignUp: true
-      })
-    },
+  onInputNickName(event) {
+    let value = event.detail.value;
+    this.setData({
+      tempNickName: value
+    })
+  },
 
-    onInputNickName(event){
-      let value = event.detail.value;
-      this.setData({
-        tempNickName: value
-      })
-    }
+  onLoadAvatar(event) {
+    const avatar = event.detail.avatarUrl
+    console.log(avatar)
+    this.setData ({
+      tempAvatar: avatar
+    })
+  },
 
+  onLogin(){
+    wx.cloud.callFunction({
+      name: 'signUpAndLogin',
+      data: {
+        avatar: this.data.tempAvatar,
+        name: this.data.tempNickName
+      }
+    })
+  }
 })

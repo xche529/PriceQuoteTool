@@ -89,7 +89,6 @@ Page({
     console.log(this.data.inputCostFactor)
   },
 
-
   onUpdateAllCostFactor: function (event) {
     let numericValue = parseFloat(this.data.inputCostFactor);
     console.log(numericValue)
@@ -130,6 +129,5 @@ Page({
     wx.navigateTo({
       url: '/pages/login/login',
     })
-
   }
 })
