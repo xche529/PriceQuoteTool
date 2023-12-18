@@ -1,20 +1,21 @@
 {
-  "entryPagePath": "pages/index/index",
-  "pages":[
-    "pages/index/index",
-    "pages/logs/logs",
-    "pages/select/select",
-    "pages/result/result",
-    "pages/calculator/calculator",
-    "pages/canvas/canvas"
-  ],
-  "window":{
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
-    "navigationBarTextStyle":"black"
-  },
-  "style": "v2",
-  "sitemapLocation": "sitemap.json",
-  "cloud": true
+    "entryPagePath": "pages/index/index",
+    "pages": [
+        "pages/index/index",
+        "pages/logs/logs",
+        "pages/select/select",
+        "pages/result/result",
+        "pages/calculator/calculator",
+        "pages/canvas/canvas",
+        "pages/login/login"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "Weixin",
+        "navigationBarTextStyle": "black"
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json",
+    "cloud": true
 }

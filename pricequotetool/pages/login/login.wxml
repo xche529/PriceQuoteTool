@@ -1,0 +1,11 @@
+<view hidden = '{{isLogin || isSignUp}}'>
+  <view class="emptyLine"></view>
+  <button type="primary" bind:tap="onSignUp">使用微信登录账号</button>
+</view>
+
+<view>
+  <button open-type="chooseAvatar" bindchooseavatar="">
+    <image src="{{user.avatar || ''}}"> </image>
+  </button>
+ <input class="inputBar" type="nickname" placeholder="请输入昵称" value="{{tempNickName}}" bindinput="onInputNickName" />
+</view>

@@ -1,0 +1,7 @@
+/* pages/login.wxss */
+.emptyLine {
+  margin: 7%;
+}
+.inputBar{
+  margin:6%
+}

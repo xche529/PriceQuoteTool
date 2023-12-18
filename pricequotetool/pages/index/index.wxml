@@ -6,6 +6,12 @@
   <view>价格： {{price}}元</view>
 </template>
 
+<view class="header">
+  <button size="mini" bind:tap="onLogin" class="headerButton">管理登录</button>
+  <view>{{userName}}</view>
+  
+</view>
+
 
 <view class="displayBox">
   <view class="box" bind:tap="onSelect">
@@ -31,9 +37,9 @@
 <view class="emptyLine"></view>
 
 <view class="displayBoxWithMargin">
-<view>修改全部报价：</view>
-<input class="inputBar"type="degit" placeholder="请输入百分比" value="{{inputCostFactor}}" bindinput="onInputAllCostFactor"/>
-<button type="primary" size="mini" bind:tap="onUpdateAllCostFactor">应用</button>
+  <view>修改全部报价：</view>
+  <input class="inputBar" type="digit" placeholder="请输入百分比" value="{{inputCostFactor}}" bindinput="onInputAllCostFactor" />
+  <button type="primary" size="mini" bind:tap="onUpdateAllCostFactor">应用</button>
 </view>
 
 <view class="emptyLine"></view>
@@ -49,7 +55,7 @@
     <view>价格： {{transformer.price}}元</view>
   </view>
   <view class="picker">
-    <picker range="{{costFactorArray}}" value="{{transformer.costFactor + 100}}" bindchange= "onChangePriceFactor" data-index="{{i}}">选择报价: {{transformer.costFactor}}%</picker>
+    <picker range="{{costFactorArray}}" value="{{transformer.costFactor + 100}}" bindchange="onChangePriceFactor" data-index="{{i}}">选择报价: {{transformer.costFactor}}%</picker>
   </view>
   <view><button type="warn" size="mini" bind:tap="onDeleteTransformer" data-index="{{i}}" class="deleteButton">删除</button></view>
 </view>

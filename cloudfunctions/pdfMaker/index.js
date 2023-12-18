@@ -19,6 +19,7 @@ exports.main = async (event, context) => {
     number++;
   });
   const wxContext = cloud.getWXContext();
+
   const fontBytes = fs.readFileSync('./font.ttf');
   const pdfDoc = await PDFDocument.create();
   pdfDoc.registerFontkit(fontkit);
@@ -34,7 +35,7 @@ exports.main = async (event, context) => {
     y: height - 4 * fontSize,
     size: fontSize,
     font: font
-  })
+  })  
   transformers.forEach(transformer => {
     height = height - fontSize
     page.drawText('规格型号： ' + transformer.name + ' 材料： ' + transformer.material + ' 容量： ' + transformer.capacity + ' 价格： ' + transformer.price, {
@@ -60,6 +61,7 @@ exports.main = async (event, context) => {
   const id = res.fileID;
   return {
     id,
-    fileName
+    fileName,
+    openid: wxContext.OPENID
   }
 }

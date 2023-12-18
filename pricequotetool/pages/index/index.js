@@ -15,6 +15,7 @@ Page({
   },
 
   data: {
+    userName: '未登录',
     costFactorArray: [],
     selectedList: [],
     selectedTransformer: '',
@@ -23,15 +24,16 @@ Page({
 
   onAdd: function () {
     let localTransList = getApp().globalData.transSelectedList;
-    let temp = {...getApp().globalData.selectedTransformer};
-    if (Object.keys(temp).length === 0){
+    let temp = {
+      ...getApp().globalData.selectedTransformer
+    };
+    if (Object.keys(temp).length === 0) {
       wx.showToast({
         title: '请选择变压器',
         icon: 'none',
-        duration: 2000, 
+        duration: 2000,
       });
-
-    }else{ 
+    } else {
       localTransList.push(temp);
       this.setData({
         selectedList: localTransList
@@ -122,5 +124,12 @@ Page({
     this.setData({
       inputCostFactor: empty
     });
+  },
+
+  onLogin: function () {
+    wx.navigateTo({
+      url: '/pages/login/login',
+    })
+
   }
 })

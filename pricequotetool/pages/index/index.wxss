@@ -1,15 +1,15 @@
-.main-page-image{
+.main-page-image {
   width: 100%;
   border-radius: 5px;
 }
 
-.box{
+.box {
   padding: 2%;
   width: 47%;
 }
 
-.transformer{
-  display:flex;
+.transformer {
+  display: flex;
   align-items: center;
   width: 95%;
   padding: 1%;
@@ -19,47 +19,57 @@
   border-style: solid;
 }
 
-.displayBox{
-  display:flex
+.displayBox {
+  display: flex
 }
 
-.displayBoxWithMargin{
-  display:flex;
+.displayBoxWithMargin {
+  display: flex;
   align-items: center;
   margin: 2%;
 }
 
-.emptyLine{
+.emptyLine {
   margin: 7%;
 }
 
-.bottomBlock{
+.bottomBlock {
   margin: 20%;
   justify-content: center;
 }
 
-.bottomButton{
-  position:fixed;
+.bottomButton {
+  position: fixed;
   right: 6%;
   bottom: 5%;
 }
 
-.indexNumber{
+.indexNumber {
   margin-left: 2%;
   margin-right: 2%;
   font-size: 30px;
 }
 
-.deleteButton{
+.deleteButton {
   right: 1%;
 }
 
-.picker{
+.picker {
   width: 25%;
   margin: 3%;
 }
 
-.inputBar{
+.inputBar {
   width: 35%;
 }
 
+.header {
+  display: flex;
+  width: 96%;
+  padding:2%;
+  background-color: gold;
+}
+
+.headerButton{
+  margin-left: 0%;
+}
