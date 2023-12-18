@@ -1,13 +1,18 @@
-<view hidden = '{{isLogin || isSignUp}}'>
+<view hidden='{{isLogin || isSignUp}}'>
   <view class="emptyLine"></view>
-  <button type="primary" bind:tap="onSignUp">使用微信账号登录</button>
+  <button type="primary" bind:tap="onLogin">使用微信账号登录</button>
 </view>
 
-<view hidden = '{{!isSignUp}}'>
-  <button class = "avatarbutton"open-type="chooseAvatar" bindchooseavatar="onLoadAvatar">
+<view hidden='{{!isSignUp}}'>
+  <button class="avatarbutton" open-type="chooseAvatar" bindchooseavatar="onLoadAvatar">
     <image class="avatar" src="{{tempAvatar || ''}}"> </image>
     <view>选择头像</view>
   </button>
- <input class="inputBar" type="nickname" placeholder="请输入昵称" value="{{tempNickName}}" bindinput="onInputNickName" />
- <button type="primary">提交</button>
+  <input class="inputBar" type="nickname" placeholder="请输入昵称" value="{{tempNickName}}" bindfocus="onInputNickName" bindinput="onInputNickName" />
+  <button type="primary" bind:tap="onSignUp">提交</button>
+</view>
+
+<view hidden='{{!isLogin}}'>
+  <image class="avatar" src="{{avatar || ''}}"> </image>
+  <view>{{name}}</view>
 </view>

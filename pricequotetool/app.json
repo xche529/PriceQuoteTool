@@ -6,7 +6,6 @@
         "pages/select/select",
         "pages/result/result",
         "pages/calculator/calculator",
-        "pages/canvas/canvas",
         "pages/login/login"
     ],
     "window": {
