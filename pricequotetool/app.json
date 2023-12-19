@@ -6,7 +6,8 @@
         "pages/select/select",
         "pages/result/result",
         "pages/calculator/calculator",
-        "pages/login/login"
+        "pages/login/login",
+        "pages/user/user"
     ],
     "window": {
         "backgroundTextStyle": "light",

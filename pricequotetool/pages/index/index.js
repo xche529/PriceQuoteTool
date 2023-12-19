@@ -150,5 +150,11 @@ Page({
     wx.reLaunch({
       url: '/pages/index/index',
     })
+  },
+
+  onUserSetting: function(){
+    wx.navigateTo({
+      url: '/pages/user/user',
+    })
   }
 })
