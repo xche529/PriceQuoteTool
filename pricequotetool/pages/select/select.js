@@ -131,7 +131,7 @@ Page({
     target = {...this.data.tempList[index]};
     target.costFactor = 100;
     getApp().selectTransformer(target);
-    wx.navigateTo({
+    wx.reLaunch({
       url: '/pages/index/index'
     });
 

@@ -13,7 +13,13 @@
   height: 100px;
   border-radius: 50%;
 }
-.avatarbutton{
+.avatarButton{
 justify-items: flex-end; 
 }
 
+.middleBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

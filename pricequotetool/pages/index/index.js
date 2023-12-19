@@ -2,6 +2,18 @@ const app = getApp()
 
 Page({
   onLoad: function () {
+    const isLoggedIn = wx.getStorageSync('isLoggedIn');
+    const userAvatar = wx.getStorageSync('userAvatar');
+    const userName = wx.getStorageSync('userName');
+
+
+    if (isLoggedIn) {
+      this.setData({
+        isLoggedIn: true,
+        userAvatar: userAvatar,
+        userName: userName
+      })
+    }
     let numberArray = [];
     let localTransList = getApp().globalData.transSelectedList;
     for (var i = -100; i <= 200; i++) {
@@ -15,11 +27,13 @@ Page({
   },
 
   data: {
-    userName: '未登录',
+    userName: '',
+    userAvatar: '',
     costFactorArray: [],
     selectedList: [],
     selectedTransformer: '',
     inputCostFactor: '',
+    isLoggedIn: false
   },
 
   onAdd: function () {
@@ -128,6 +142,13 @@ Page({
   onLogin: function () {
     wx.navigateTo({
       url: '/pages/login/login',
+    })
+  },
+
+  onLogoff: function(){
+    wx.clearStorageSync();
+    wx.reLaunch({
+      url: '/pages/index/index',
     })
   }
 })

@@ -103,7 +103,6 @@ Page({
         console.error('下载txt文件失败', res)
       },
       complete: res =>{
-        wx.clearStorage()
         wx.cloud.deleteFile({
           fileList:[id],
           success: res =>{

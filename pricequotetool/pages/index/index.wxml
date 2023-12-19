@@ -7,9 +7,11 @@
 </template>
 
 <view class="header">
-  <button size="mini" bind:tap="onLogin" class="headerButton">管理登录</button>
+  <button size="mini" bind:tap="onLogin" class="headerButton" hidden="{{isLoggedIn}}">管理登录</button>
+  <button size="mini" class="headerButton" type="warn" bind:tap="onLogoff" hidden="{{!isLoggedIn}}">退出登录</button>
   <view>{{userName}}</view>
-  
+  <image src="{{userAvatar}}" class="headerAvatar" mode="" />
+  <view hidden="{{isLoggedIn}}">未登录</view>
 </view>
 
 
@@ -30,7 +32,7 @@
 
 </view>
 <view class="emptyLine"></view>
-<button type="primary" bind:tap="onCalculator">价格计算器</button>
+<button type="primary" bind:tap="onCalculator" hidden="true">价格计算器</button>
 
 <view class="emptyLine"></view>
 <button type="primary" bind:tap="onAdd">添加变压器</button>
