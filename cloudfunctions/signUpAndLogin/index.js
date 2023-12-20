@@ -19,6 +19,7 @@ exports.main = async (event, context) => {
         openID: wxContext.OPENID,
         avatar: event.avatar,
         name: event.name,
+        company: null
       }
       const res = await db.collection('users').where({
         openID: wxContext.OPENID

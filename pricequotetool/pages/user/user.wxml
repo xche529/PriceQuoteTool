@@ -13,7 +13,8 @@
   <input class="inputBar" type="nickname" placeholder="请输入新昵称" value="{{tempNickName}}" bindfocus="onInputNickName" bindinput="onInputNickName" />
   <button type="primary" bind:tap="onChangeUserInfo">提交</button>
 </view>
-<view>公司名称：</view>
-<input class="inputBar" type="nickname" placeholder="请输入公司名" value="{{}}" bindfocus="onInputNickName" bindinput="onInputNickName" />
-
-<view></view>
+<view hidden='{{!isCompany}}'>
+<view class="inputBar">公司名称：</view>
+<input class="inputBar" placeholder="请输入公司名" value="{{}}" bindfocus="onInputNickName" bindinput="onInputNickName" />
+<button type="primary" bind:tap="onSignupCompany">提交</button>
+</view>
