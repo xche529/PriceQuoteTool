@@ -6,7 +6,6 @@ Page({
     const userAvatar = wx.getStorageSync('userAvatar');
     const userName = wx.getStorageSync('userName');
 
-
     if (isLoggedIn) {
       this.setData({
         isLoggedIn: true,
@@ -14,6 +13,7 @@ Page({
         userName: userName
       })
     }
+    
     let numberArray = [];
     let localTransList = getApp().globalData.transSelectedList;
     for (var i = -100; i <= 200; i++) {
@@ -24,6 +24,21 @@ Page({
       costFactorArray: numberArray,
       selectedList: localTransList
     });
+  },
+
+  onShow(){
+    const isLoggedIn = wx.getStorageSync('isLoggedIn');
+    const userAvatar = wx.getStorageSync('userAvatar');
+    const userName = wx.getStorageSync('userName');
+
+    if (isLoggedIn) {
+      this.setData({
+        isLoggedIn: true,
+        userAvatar: userAvatar,
+        userName: userName
+      })
+    }
+
   },
 
   data: {
@@ -145,14 +160,14 @@ Page({
     })
   },
 
-  onLogoff: function(){
+  onLogoff: function () {
     wx.clearStorageSync();
     wx.reLaunch({
       url: '/pages/index/index',
     })
   },
 
-  onUserSetting: function(){
+  onUserSetting: function () {
     wx.navigateTo({
       url: '/pages/user/user',
     })

@@ -134,6 +134,13 @@ Page({
               url: '/pages/index/index'
             });
           }, 2000);
+        },fail: res =>{
+          wx.hideLoading();
+          wx.showToast({
+            title: '获取用户失败',
+            icon: 'error',
+            duration: 2000,
+          });
         }
       });
     } else {

@@ -1,13 +1,19 @@
 <!--pages/user.wxml-->
-<button type="primary">修改账号信息</button>
-
-<view hidden='{{!isSignUp}}'>
+<view class="emptyLine"></view>
+<button type="primary" bind:tap="onShowEdit" hidden='{{isCompany || isInvite}}'>修改账号信息</button>
+<view class="emptyLine"></view>
+<button type="primary" bind:tap="onShowCompany" hidden='{{isEdit || isInvite}}'>注册公司 </button>
+<view class="emptyLine"></view>
+<button type="primary" bind:tap="onShowInvite" hidden='{{isEdit || isCompany}}'>输入邀请码加入</button>
+<view hidden='{{!isEdit}}'>
   <button class="avatarButton" open-type="chooseAvatar" bindchooseavatar="onLoadAvatar">
     <image class="avatar" src="{{tempAvatar || ''}}"> </image>
-    <view>选择头像</view>
+    <view>修改头像</view>
   </button>
-  <input class="inputBar" type="nickname" placeholder="请输入昵称" value="{{tempNickName}}" bindfocus="onInputNickName" bindinput="onInputNickName" />
-  <button type="primary" bind:tap="onSignUp">提交</button>
+  <input class="inputBar" type="nickname" placeholder="请输入新昵称" value="{{tempNickName}}" bindfocus="onInputNickName" bindinput="onInputNickName" />
+  <button type="primary" bind:tap="onChangeUserInfo">提交</button>
 </view>
+<view>公司名称：</view>
+<input class="inputBar" type="nickname" placeholder="请输入公司名" value="{{}}" bindfocus="onInputNickName" bindinput="onInputNickName" />
 
-注册公司：
+<view></view>
