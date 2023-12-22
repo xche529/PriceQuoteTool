@@ -113,6 +113,11 @@ Page({
         name: res.result.name,
       })
       wx.setStorageSync('userName', res.result.name);
+      if(res.result.company === null){
+        wx.setStorageSync('company', null);
+      }else{
+        wx.setStorageSync('company', res.result.company);
+      }
       wx.cloud.downloadFile({
         fileID: res.result.avatar,
         success: res => {

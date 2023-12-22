@@ -23,3 +23,8 @@ justify-items: flex-end;
   justify-content: center;
   flex-direction: column;
 }
+
+.memberList{
+  margin-left: 10%;
+}
+

@@ -1,25 +1,25 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
-const {
-  update
-} = require('XrFrame/kanata/lib/index')
-
 cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
-}) // 使用当前云环境
+})
+const db = cloud.database()
+
 
 // 云函数入口函数
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
-  const compName = event.compName;
+  const name = event.name;
   let signedUp = false;
 
   try {
     const res = await db.collection('users').where({
       openID: wxContext.OPENID
     }).get();
-    if (!res.data.length === 1) {
-      const random = Math.random().toString(36).substr(2, 15) + Math.random().toString(36).substr(2, 15);
+    console.log(res)
+    if (res.data.length === 1) {
+      const random = Math.random().toString(36).substr(2, 15)
+      console.log(random)
       await db.collection('users').where({
         openID: wxContext.OPENID
       }).update({
@@ -29,7 +29,7 @@ exports.main = async (event, context) => {
       })
       compInfo = {
         admin: [wxContext.OPENID],
-        name: compName,
+        name: name,
         companyID: random,
         members: [],
         waitList: [],
@@ -39,12 +39,18 @@ exports.main = async (event, context) => {
         data: compInfo
       })
       signedUp = true;
+      return {
+        signedUp,
+      }
+    } else {
+      return {
+        signedUp,
+      }
     }
   } catch {
-    signedUp = false;
-  }
-
-  return {
-    signedUp,
+    console.log('catch')
+    return {
+      signedUp,
+    }
   }
 }

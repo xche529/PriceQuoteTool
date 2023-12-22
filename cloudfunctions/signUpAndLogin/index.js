@@ -9,6 +9,7 @@ const db = cloud.database()
 exports.main = async (event, context) => {
   let signedUp = null;
   let name = '数据加载失败';
+  let company = null;
   let avatar = '';
   const wxContext = cloud.getWXContext();
   const isSignUp = event.isSignUp;
@@ -55,6 +56,7 @@ exports.main = async (event, context) => {
 
       name = user.data[0].name
       avatar = user.data[0].avatar
+      company = user.data[0].company
     } catch {
       signedUp = false
     }
@@ -65,5 +67,6 @@ exports.main = async (event, context) => {
     signedUp,
     name,
     avatar,
+    company,
   }
 }

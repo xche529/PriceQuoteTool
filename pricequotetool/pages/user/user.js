@@ -2,20 +2,60 @@
 Page({
 
   data: {
+    isAdmin: false,
+    company: null,
     isEdit: false,
     isCompany: false,
     isInvite: false,
+    showCompanyInfo: false,
     tempAvatar: '',
     tempNickName: '',
+    tempCompanyName: '',
+    companyName: '加载中',
+    members: [1, 2, 3],
+    waitList: [],
+    blackList: [],
   },
 
   onLoad() {
+    const company = wx.getStorageSync('company');
     const userAvatar = wx.getStorageSync('userAvatar');
     const userName = wx.getStorageSync('userName');
     this.setData({
       tempAvatar: userAvatar,
       tempNickName: userName
     })
+    if (company != null) {
+      this.setData({
+        showCompanyInfo: true,
+      })
+      console.log('company:', company)
+      let compName = ''
+      try {
+        wx.cloud.callFunction({
+          name: 'getCompanyName',
+          data: {
+            company
+          },
+          success: res => {
+            compName = res.result.companyName
+            this.setData({
+              companyName: compName
+            })
+          },
+          fail: res => {
+            this.setData({
+              companyName: '加载失败'
+            })
+          }
+        })
+      } catch {
+        this.setData({
+          companyName: '加载失败'
+        })
+      }
+    }
+    wx.hideLoading()
   },
 
   onShowEdit() {
@@ -30,7 +70,7 @@ Page({
     })
   },
 
-  onShowInvite(){
+  onShowInvite() {
     this.setData({
       isInvite: !this.data.isInvite
     })
@@ -53,13 +93,19 @@ Page({
     })
   },
 
+  onInputCompanyName(event) {
+    let value = event.detail.value;
+    this.setData({
+      tempCompanyName: value
+    })
+  },
+
   onChangeUserInfo() {
     wx.showLoading({
       title: '上传中',
       mask: true
     })
     const cloudPath = 'avatars/' + Math.random().toString(36).substr(2, 15); + '.jpg';
-    // 上传图片到云存储
     wx.cloud.uploadFile({
       cloudPath: cloudPath,
       filePath: this.data.tempAvatar,
@@ -118,39 +164,93 @@ Page({
     })
   },
 
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
+  onSignupCompany() {
+    wx.showLoading({
+      title: '注册中',
+    })
+    wx.cloud.callFunction({
+      name: 'signUpCompany',
+      data: {
+        name: this.data.tempCompanyName,
+      },
+      success: res => {
+        wx.hideLoading()
+        if (res.result.signedUp) {
+          wx.showToast({
+            title: '注册成功！',
+          })
+          this.setData({
+            isCompany: false,
+          })
+        } else {
+          wx.showToast({
+            icon: 'error',
+            title: '注册失败！',
+          })
+        }
+      },
+      fail: res => {
+        wx.hideLoading()
+        wx.showToast({
+          icon: 'error',
+          title: '注册失败！',
+        })
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
+  onShowCompanyInfo() {
+    wx.showLoading({
+      title: '加载中',
+    })
+    console.log('yes')
+    wx.cloud.callFunction({
+      name: 'checkAdmin',
+      success: res => {
+        if (res.result.admin) {
+          console.log('admin: true')
+          this.getCompanyInfo()
+        } else {
+          wx.hideLoading()
 
+          wx.showToast({
+            title: '您没有权限',
+            icon: 'error'
+          })
+        }
+      },
+      fail: res => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '加载失败',
+          icon: 'error'
+        })
+      }
+    })
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  getCompanyInfo() {
+    wx.cloud.callFunction({
+      name: 'getCompanyInfo',
+      success: res => {
+        wx.hideLoading()
+        console.log(res)
+        this.setData({
+          members: res.result.membersName,
+          waitList: res.result.waitList,
+          blackList: res.result.blackList,
+          isAdmin: true
+        })
+      },
+      fail: res=>{
+        console.log(res)
+        wx.hideLoading()
+        wx.showToast({
+          title: '加载失败',
+          icon: 'error'
+        })
+      }
+    })
   }
+
 })

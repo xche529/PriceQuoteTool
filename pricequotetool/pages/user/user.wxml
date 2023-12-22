@@ -1,10 +1,21 @@
 <!--pages/user.wxml-->
+<view hidden='{{!showCompanyInfo}}' class="middleBox">{{companyName}}
+</view>
+
 <view class="emptyLine"></view>
-<button type="primary" bind:tap="onShowEdit" hidden='{{isCompany || isInvite}}'>修改账号信息</button>
-<view class="emptyLine"></view>
-<button type="primary" bind:tap="onShowCompany" hidden='{{isEdit || isInvite}}'>注册公司 </button>
-<view class="emptyLine"></view>
-<button type="primary" bind:tap="onShowInvite" hidden='{{isEdit || isCompany}}'>输入邀请码加入</button>
+<view hidden='{{isCompany || isInvite}}'>
+  <button type="primary" bind:tap="onShowEdit">修改账号信息</button>
+  <view class="emptyLine"></view>
+</view>
+<view hidden='{{isEdit || isInvite || showCompanyInfo}}'>
+  <button type="primary" bind:tap="onShowCompany">注册公司 </button>
+  <view class="emptyLine"></view>
+</view>
+<view hidden='{{isEdit || isCompany || showCompanyInfo}}'>
+
+  <button type="primary" bind:tap="onShowInvite" hidden='{{isEdit || isCompany || showCompanyInfo}}'>输入邀请码加入</button>
+  <view class="emptyLine"></view>
+</view>
 <view hidden='{{!isEdit}}'>
   <button class="avatarButton" open-type="chooseAvatar" bindchooseavatar="onLoadAvatar">
     <image class="avatar" src="{{tempAvatar || ''}}"> </image>
@@ -14,7 +25,19 @@
   <button type="primary" bind:tap="onChangeUserInfo">提交</button>
 </view>
 <view hidden='{{!isCompany}}'>
-<view class="inputBar">公司名称：</view>
-<input class="inputBar" placeholder="请输入公司名" value="{{}}" bindfocus="onInputNickName" bindinput="onInputNickName" />
-<button type="primary" bind:tap="onSignupCompany">提交</button>
+  <view class="inputBar">公司名称：</view>
+  <input class="inputBar" placeholder="请输入公司名" value="{{tempCompanyName}}" bindfocus="onInputCompanyName" bindinput="onInputCompanyName" />
+  <button type="primary" bind:tap="onSignupCompany">提交</button>
+</view>
+<view class="emptyLine"></view>
+<button type="primary" hidden="{{!showCompanyInfo}}" bind:tap="onShowCompanyInfo">查看公司信息</button>
+
+<view hidden='{{!isAdmin || !showCompanyInfo}}'>
+  <view class="emptyLine"></view>
+
+  <view class="memberList">员工信息：</view>
+  <view wx:for="{{members}}" wx:for-index="i" wx:for-item="member" class="memberList">
+    <view>{{member}}</view>
+  </view>
+  <view class="memberList">待确认：</view>
 </view>
