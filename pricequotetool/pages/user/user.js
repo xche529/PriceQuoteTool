@@ -209,10 +209,9 @@ Page({
       success: res => {
         if (res.result.admin) {
           console.log('admin: true')
-          this.getCompanyInfo()
+          this.getMemberInfo()
         } else {
           wx.hideLoading()
-
           wx.showToast({
             title: '您没有权限',
             icon: 'error'
@@ -229,7 +228,33 @@ Page({
     })
   },
 
-  getCompanyInfo() {
+  getMemberInfo() {
+    let memberSize = 0
+    let waitSize = 0
+    let blackSize = 0
+
+    wx.cloud.callFunction({
+      name: 'getMemberInfo',
+      success: res => {
+        console.log(res)
+        this.setData({
+          memmemberSizebers: res.result.membersName,
+          waitList: res.result.waitList,
+          blackList: res.result.blackList,
+          isAdmin: true
+        })
+      },
+      fail: res=>{
+        console.log(res)
+        wx.hideLoading()
+        wx.showToast({
+          title: '加载失败',
+          icon: 'error'
+        })
+      }
+    })
+
+    
     wx.cloud.callFunction({
       name: 'getCompanyInfo',
       success: res => {

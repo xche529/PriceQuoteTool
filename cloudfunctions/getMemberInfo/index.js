@@ -7,15 +7,34 @@ cloud.init({
 const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-  const openID = event.openID
-  const res = await db.collection('users').where({
-    openID: openID
-  }).get()
-  const name = res.data[0].name
-  const avatar = res.data[0].avatar
-  return {
-    name,
-    avatar
+  let memberSize = 0
+  let waitSize = 0
+  let blackSize = 0
+  
+  try {
+    let user = await db.collection('users').where({
+      openID: wxContext.OPENID
+    }).get();
+    const company = user.data[0].company;
+    const companies = await db.collection('companies').where({
+      companyID: company
+    }).get();
+    memberSize = companies.data[0].members.length()
+    waitSize = companies.data[0].waitList.length()
+    blackSize = companies.data[0].blackList.length()
+
+    return {
+      memberSize,
+      waitSize,
+      blackSize
+    }
+  } catch {
+    return {
+      memberSize,
+      waitSize,
+      blackSize
+    }
   }
+
+
 }

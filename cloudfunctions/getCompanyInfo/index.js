@@ -8,17 +8,9 @@ const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
-  let memberName = ''
-  let waitName = ''
-  let blackName = ''
-
-  let memberAvatar = ''
-  let waitAvatar = ''
-  let blackAvatar = ''
-
-  let memberID = ''
-  let waitID = ''
-  let blackID = ''
+  let name = ''
+  let avatar = ''
+  let id = ''
 
   try {
     let user = await db.collection('users').where({
@@ -28,37 +20,31 @@ exports.main = async (event, context) => {
     const companies = await db.collection('companies').where({
       companyID: company
     }).get();
-    if(event.type === 1){
-      
+    if (event.type === member) {
+      id = companies.data[0].members[event.index]
+    } else if (event.type === wait) {
+      id = companies.data[0].waitList[event.index]
+    } else {
+      id = companies.data[0].blackList[event.index]
     }
 
-    membersID = companies.data[0].members[index]
-    waitListID = companies.data[0].waitList[index]
-    blackListID = companies.data[0].blackList
-
-    membersID.forEach(memberID => {
-      const res = await cloud.callFunction({
-        name: 'getMemberInfo',
-        data: {
-          openID: memberID
-        }
-      })
-      membersName.push(res.result.name)
-      membersAvatar.push(res.result.avatar)
-    });
+    const res = await cloud.callFunction({
+      name: 'getMemberInfo',
+      data: {
+        openID: id
+      }
+    })
+    name = res.result.name
+    avatar = res.result.avatar
 
     return {
-      memberName,
-      memberAvatar,
-      wait,
-      black,
+      name,
+      avatar
     }
   } catch {
     return {
-      members,
-      waitList,
-      blackList,
+      name,
+      avatar
     }
   }
-
 }
