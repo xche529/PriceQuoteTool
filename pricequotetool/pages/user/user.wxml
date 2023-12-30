@@ -4,40 +4,50 @@
 
 <view class="emptyLine"></view>
 <view hidden='{{isCompany || isInvite}}'>
-  <button type="primary" bind:tap="onShowEdit">修改账号信息</button>
-  <view class="emptyLine"></view>
+    <button type="primary" bind:tap="onShowEdit">修改账号信息</button>
+    <view class="emptyLine"></view>
 </view>
 <view hidden='{{isEdit || isInvite || showCompanyInfo}}'>
-  <button type="primary" bind:tap="onShowCompany">注册公司 </button>
-  <view class="emptyLine"></view>
+    <button type="primary" bind:tap="onShowCompany">注册公司 </button>
+    <view class="emptyLine"></view>
 </view>
 <view hidden='{{isEdit || isCompany || showCompanyInfo}}'>
 
-  <button type="primary" bind:tap="onShowInvite" hidden='{{isEdit || isCompany || showCompanyInfo}}'>输入邀请码加入</button>
-  <view class="emptyLine"></view>
+    <button type="primary" bind:tap="onShowInvite" hidden='{{isEdit || isCompany || showCompanyInfo}}'>输入邀请码加入</button>
+    <view class="emptyLine"></view>
 </view>
 <view hidden='{{!isEdit}}'>
-  <button class="avatarButton" open-type="chooseAvatar" bindchooseavatar="onLoadAvatar">
-    <image class="avatar" src="{{tempAvatar || ''}}"> </image>
-    <view>修改头像</view>
-  </button>
-  <input class="inputBar" type="nickname" placeholder="请输入新昵称" value="{{tempNickName}}" bindfocus="onInputNickName" bindinput="onInputNickName" />
-  <button type="primary" bind:tap="onChangeUserInfo">提交</button>
+    <button class="avatarButton" open-type="chooseAvatar" bindchooseavatar="onLoadAvatar">
+        <image class="avatar" src="{{tempAvatar || ''}}"> </image>
+        <view>修改头像</view>
+    </button>
+    <input class="inputBar" type="nickname" placeholder="请输入新昵称" value="{{tempNickName}}" bindfocus="onInputNickName" bindinput="onInputNickName" />
+    <button type="primary" bind:tap="onChangeUserInfo">提交</button>
 </view>
 <view hidden='{{!isCompany}}'>
-  <view class="inputBar">公司名称：</view>
-  <input class="inputBar" placeholder="请输入公司名" value="{{tempCompanyName}}" bindfocus="onInputCompanyName" bindinput="onInputCompanyName" />
-  <button type="primary" bind:tap="onSignupCompany">提交</button>
+    <view class="inputBar">公司名称：</view>
+    <input class="inputBar" placeholder="请输入公司名" value="{{tempCompanyName}}" bindfocus="onInputCompanyName" bindinput="onInputCompanyName" />
+    <button type="primary" bind:tap="onSignupCompany">提交</button>
 </view>
 <view class="emptyLine"></view>
 <button type="primary" hidden="{{!showCompanyInfo}}" bind:tap="onShowCompanyInfo">查看公司信息</button>
 
 <view hidden='{{!isAdmin || !showCompanyInfo}}'>
-  <view class="emptyLine"></view>
+    <view class="middleBox">
+        <view class="emptyLine">{{company}}</view>
+        <button type="primary" bind:tap="onCopyInvite">复制邀请码</button>
+    </view>
+    <view class="emptyLine"></view>
 
-  <view class="memberList">员工信息：</view>
-  <view wx:for="{{members}}" wx:for-index="i" wx:for-item="member" class="memberList">
-    <view>{{member}}</view>
-  </view>
-  <view class="memberList">待确认：</view>
+    <view class="memberList">员工信息：</view>
+    <view wx:for="{{members}}" wx:for-index="i" wx:for-item="member" class="memberList">
+        <view>{{member.name}}</view>
+        <image src="{{member.avatar}}" class="listAvatar"></image>
+    </view>
+    <view class="memberList">待确认：</view>
+</view>
+<view hidden='{{!isInvite}}' class="middleBox">
+    <input class="inputBar" placeholder="请输入邀请码" value="{{inviteCode}}" bindinput="onInputInviteCode" />
+    
+    <button type="primary">申请加入</button>
 </view>

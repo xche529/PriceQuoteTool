@@ -20,22 +20,28 @@ exports.main = async (event, context) => {
     const companies = await db.collection('companies').where({
       companyID: company
     }).get();
-    if (event.type === member) {
+    //get openID of the target user
+    if (event.type === 'member') {
       id = companies.data[0].members[event.index]
-    } else if (event.type === wait) {
+    } else if (event.type === 'wait') {
       id = companies.data[0].waitList[event.index]
     } else {
       id = companies.data[0].blackList[event.index]
     }
+    console.log(id)
 
-    const res = await cloud.callFunction({
-      name: 'getMemberInfo',
-      data: {
-        openID: id
-      }
+  
+    let res = await db.collection('users').where({
+      openID: id
+    }).get();
+    console.log(res)
+
+    name = res.data[0].name
+    const image = await cloud.downloadFile({
+      fileID: res.data[0].avatar,
     })
-    name = res.result.name
-    avatar = res.result.avatar
+    const buffer = image.fileContent
+    avatar = buffer.toString('base64')
 
     return {
       name,
