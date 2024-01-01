@@ -175,8 +175,38 @@ Page({
     },
 
     onJoinCompany() {
+        wx.showLoading({
+            title: '注册中',
+        })
+
         wx.cloud.callFunction({
-            name: 'joinCompany'
+            name: 'joinCompany',
+            data: {
+                inviteCode: this.data.inviteCode
+            },
+            success: res => {
+                if (res.result.isSuccess) {
+                    wx.setStorageSync('company', this.data.inviteCode);
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '申请成功！',
+                        icon: 'success'
+                    })
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: '申请失败！',
+                        icon: 'error'
+                    })
+                }
+            },
+            fail: res => {
+                wx.hideLoading()
+                wx.showToast({
+                    title: '申请失败！',
+                    icon: 'error'
+                })
+            }
         })
     },
 
@@ -226,7 +256,6 @@ Page({
     },
 
     onShowCompanyInfo() {
-        zzzzzzzzzzzzzzzzzzzz
         this.data.members = []
         wx.showLoading({
             title: '加载中',
@@ -263,74 +292,85 @@ Page({
             success: res => {
                 let memberSize = 0
                 let waitSize = 0
-                let blackSize = 0
 
                 memberSize = res.result.memberSize
+                const memberListSize = res.result.memberSize
                 waitSize = res.result.waitList
-                blackSize = res.result.blackList
                 console.log(res)
-                console.log('memberSize:', memberSize)
-                if (memberSize === 0) {
-                    let empty = {
-                        name: '无员工',
-                        avatar: ''
+                for (let j = 0; j < 2; j++) {
+                    console.log(j)
+                    let targetArray = this.data.members
+                    let searchType = 'member'
+                    if (j == 1) {
+                        memberSize = waitSize
+                        targetArray = this.data.waitList
+                        searchType = 'wait'
                     }
-                    this.data.members.push(empty)
-                    this.setData({
-                        members: this.data.members,
-                        isAdmin: true
-
-                    })
-                    wx.hideLoading()
-                } else {
-                    for (let i = 0; i < memberSize; i++) {
-                        let filePath = wx.env.USER_DATA_PATH + '/avatar' + i + '.png'
-                        const newMember = {
-                            name: '加载失败',
+                    console.log(memberSize)
+                    if (memberSize === 0) {
+                        let empty = {
+                            name: '无员工',
                             avatar: ''
                         }
-                        wx.cloud.callFunction({
-                            name: 'getCompanyInfo',
-                            data: {
-                                type: 'member',
-                                index: i
-                            },
-                            success: res => {
-                                newMember.name = res.result.name
-                                console.log(i, this.data.members, res)
-                                fs.writeFile({
-                                    filePath: filePath,
-                                    data: res.result.avatar,
-                                    encoding: 'base64',
-                                    success: res => {
-                                        console.log(res)
-                                        newMember.avatar = filePath
-                                        this.data.members.push(newMember)
-                                    },
-                                    fail: res => {
-                                        console.error(res)
-                                        this.data.members.push(newMember)
-                                    },
-                                    complete: res => {
-                                        if (this.data.members.length === memberSize) {
-                                            this.setData({
-                                                members: this.data.members,
-                                                isAdmin: true
-                                            })
-                                            wx.hideLoading()
-                                        }
-                                    }
-                                })
-                            },
-                            fail: res => {
-                                console.log(res)
-                                wx.showToast({
-                                    title: '加载失败',
-                                    icon: 'error'
-                                })
-                            }
+                        targetArray.push(empty)
+                        this.setData({
+                            members: this.data.members,
+                            waitList: this.data.waitList,
+                            isAdmin: true
                         })
+                        wx.hideLoading()
+                    } else {
+                        for (let i = 0; i < memberSize; i++) {
+                            let filePath = wx.env.USER_DATA_PATH + '/avatar' + i + j + '.png'
+                            const newMember = {
+                                name: '加载失败',
+                                avatar: ''
+                            }
+                            wx.cloud.callFunction({
+                                name: 'getCompanyInfo',
+                                data: {
+                                    type: searchType,
+                                    index: i
+                                },
+                                success: res => {
+                                    newMember.name = res.result.name
+                                    console.log(i, targetArray, res)
+                                    fs.writeFile({
+                                        filePath: filePath,
+                                        data: res.result.avatar,
+                                        encoding: 'base64',
+                                        success: res => {
+                                            console.log(res)
+                                            newMember.avatar = filePath
+                                            targetArray.push(newMember)
+                                        },
+                                        fail: res => {
+                                            console.error(res)
+                                            targetArray.push(newMember)
+                                        },
+                                        complete: res => {
+                                            if (this.data.members.length === memberListSize && this.data.waitList.length === waitSize) {
+                                                this.setData({
+                                                    members: this.data.members,
+                                                    waitList: this.data.waitList,
+                                                    isAdmin: true
+                                                })
+                                                wx.hideLoading()
+                                            }
+                                        }
+                                    })
+                                },
+                                fail: res => {
+                                    console.log(res)
+                                    wx.showToast({
+                                        title: '加载失败',
+                                        icon: 'error'
+                                    })
+                                }
+                            })
+                        }
                     }
+
                 }
             },
             fail: res => {

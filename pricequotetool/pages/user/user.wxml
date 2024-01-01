@@ -45,9 +45,13 @@
         <image src="{{member.avatar}}" class="listAvatar"></image>
     </view>
     <view class="memberList">待确认：</view>
+    <view wx:for="{{waitList}}" wx:for-index="i" wx:for-item="wait" class="memberList">
+        <view>{{wait.name}}</view>
+        <image src="{{wait.avatar}}" class="listAvatar"></image>
+    </view>
 </view>
 <view hidden='{{!isInvite}}' class="middleBox">
     <input class="inputBar" placeholder="请输入邀请码" value="{{inviteCode}}" bindinput="onInputInviteCode" />
-    
-    <button type="primary">申请加入</button>
+
+    <button type="primary" bind:tap="onJoinCompany">申请加入</button>
 </view>

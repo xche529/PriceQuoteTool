@@ -10,7 +10,7 @@ const db = cloud.database()
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const company = event.company
-  let companyName = ''
+  let companyName = ''  
 
   try {
     const res = await db.collection('companies').where({

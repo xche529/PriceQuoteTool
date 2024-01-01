@@ -17,27 +17,37 @@ exports.main = async (event, context) => {
         }).get();
         console.log(res)
         if (res.data.length === 1) {
-            if (res.data[0].company == null) {
+            if (res.data[0].company === null) {
                 const company = await db.collection('companies').where({
                     companyID: inviteCode
                 }).get();
+                console.log(company)
+
                 if (company.data.length === 1) {
-                    await db.collection('companies').where({
+                    const updateRes = await db.collection('companies').where({
                         companyID: inviteCode
                     }).update({
                         data: {
-                            members: db.command.push(wxContext.OPENID)
-                        },
-                        success: res => {
-                            isSuccess = true
-                        },
-                        complete: res=>{
-                            return {
-                                isSuccess
-                            }                        
+                            waitList: db.command.push(wxContext.OPENID)
                         }
-                    })
+                    });
+                    console.log(updateRes)
+                    if (updateRes.stats.updated === 1) {
+                        const userRes = await db.collection('users').where({
+                            openID: wxContext.OPENID
+                        }).update({
+                            data: {
+                                company: inviteCode
+                            },
+                        })
+                        if (userRes.stats.updated === 1) {
+                            isSuccess = true
+                        }
+                    }
                 }
+            }
+            return {
+                isSuccess,
             }
         }
     } catch {
@@ -45,5 +55,4 @@ exports.main = async (event, context) => {
             isSuccess
         }
     }
-
 }
