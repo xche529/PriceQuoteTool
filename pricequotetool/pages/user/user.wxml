@@ -12,7 +12,6 @@
     <view class="emptyLine"></view>
 </view>
 <view hidden='{{isEdit || isCompany || showCompanyInfo}}'>
-
     <button type="primary" bind:tap="onShowInvite" hidden='{{isEdit || isCompany || showCompanyInfo}}'>输入邀请码加入</button>
     <view class="emptyLine"></view>
 </view>
@@ -38,20 +37,27 @@
         <button type="primary" bind:tap="onCopyInvite">复制邀请码</button>
     </view>
     <view class="emptyLine"></view>
-
     <view class="memberList">员工信息：</view>
     <view wx:for="{{members}}" wx:for-index="i" wx:for-item="member" class="memberList">
-        <view>{{member.name}}</view>
-        <image src="{{member.avatar}}" class="listAvatar"></image>
+        <view>
+            <image src="{{member.avatar}}" class="listAvatar"></image>
+            <view>{{member.name}}</view>
+        </view>
+        <button type="warn" size="mini" bind:tap="onDeleteMember" data-index="{{i}}">删除</button>
     </view>
     <view class="memberList">待确认：</view>
-    <view wx:for="{{waitList}}" wx:for-index="i" wx:for-item="wait" class="memberList">
-        <view>{{wait.name}}</view>
-        <image src="{{wait.avatar}}" class="listAvatar"></image>
+    <view wx:for="{{waitList}}" wx:for-index="i" wx:for-item="wait">
+        <view class="memberList">
+            <view>
+                <image src="{{wait.avatar}}" class="listAvatar"></image>
+                <view>{{wait.name}}</view>
+            </view>
+            <button type="primary" size="mini" class="memberListItem" bind:tap="onApproveMember" data-index="{{i}}">确认</button>
+            <button type="warn" size="mini" class="memberListItem" data-index="{{i}}" bind:tap="onDeleteWait">拒绝</button>
+        </view>
     </view>
 </view>
 <view hidden='{{!isInvite}}' class="middleBox">
     <input class="inputBar" placeholder="请输入邀请码" value="{{inviteCode}}" bindinput="onInputInviteCode" />
-
     <button type="primary" bind:tap="onJoinCompany">申请加入</button>
 </view>

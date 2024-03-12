@@ -1,36 +1,51 @@
-/* pages/user.wxss *//* pages/login.wxss */
+/* pages/user.wxss */
+/* pages/login.wxss */
 .emptyLine {
-  margin: 7%;
+    margin: 7%;
 }
 
-.inputBar{
-  margin:6%;
-  margin-left: 25%;
+.inputBar {
+    margin: 6%;
+    margin-left: 25%;
 }
 
-.avatar{
-  width:100px;
-  height: 100px;
-  border-radius: 50%;
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
 }
 
-.listAvatar{
-  width:60px;
-  height: 60px;
-
-}
-.avatarButton{
-justify-items: flex-end; 
+.listAvatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%
 }
 
-.middleBox{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+.avatarButton {
+    justify-items: flex-end;
+    margin-right: 10%;
+    margin-left: auto;
 }
 
-.memberList{
-  margin-left: 10%;
+.middleBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
+.memberList {
+    margin: 10%;
+    display: flex;
+    align-items: center;
+}
+
+.memberListItem {
+    margin-left: 10%;
+}
+
+.bottomBlock {
+    margin: 20%;
+    justify-content: center;
+  }
+  

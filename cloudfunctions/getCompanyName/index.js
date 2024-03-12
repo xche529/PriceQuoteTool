@@ -20,7 +20,7 @@ exports.main = async (event, context) => {
       companyName = res.data[0].name
     }
   } catch {
-
+    
   }
   return {
     companyName

@@ -257,6 +257,7 @@ Page({
 
     onShowCompanyInfo() {
         this.data.members = []
+        this.data.waitList = []
         wx.showLoading({
             title: '加载中',
         })
@@ -287,45 +288,28 @@ Page({
 
     getMemberInfo() {
         const fs = wx.getFileSystemManager()
-        wx.cloud.callFunction({
-            name: 'getMemberInfo',
-            success: res => {
-                let memberSize = 0
-                let waitSize = 0
-
-                memberSize = res.result.memberSize
-                const memberListSize = res.result.memberSize
-                waitSize = res.result.waitList
-                console.log(res)
-                for (let j = 0; j < 2; j++) {
-                    console.log(j)
-                    let targetArray = this.data.members
-                    let searchType = 'member'
-                    if (j == 1) {
-                        memberSize = waitSize
-                        targetArray = this.data.waitList
-                        searchType = 'wait'
-                    }
-                    console.log(memberSize)
-                    if (memberSize === 0) {
-                        let empty = {
-                            name: '无员工',
-                            avatar: ''
-                        }
-                        targetArray.push(empty)
-                        this.setData({
-                            members: this.data.members,
-                            waitList: this.data.waitList,
-                            isAdmin: true
-                        })
-                        wx.hideLoading()
-                    } else {
-                        for (let i = 0; i < memberSize; i++) {
-                            let filePath = wx.env.USER_DATA_PATH + '/avatar' + i + j + '.png'
-                            const newMember = {
-                                name: '加载失败',
-                                avatar: ''
-                            }
+        const processMembers = async (memberSize, waitSize, targetArray, searchType, searchSize) => {
+            console.log(memberSize, waitSize, targetArray, searchType, searchSize)
+            if (searchSize === 0) {
+                this.setData({
+                    members: this.data.members,
+                    waitList: this.data.waitList,
+                    isAdmin: true
+                })
+                wx.hideLoading()
+            } else {
+                try {
+                    const tasks = [];
+    
+                    for (let i = 0; i < searchSize; i++) {
+                        let filePath = wx.env.USER_DATA_PATH + '/avatar' + Math.random().toString(36).substr(2, 15) + '.png';
+                        const newMember = {
+                            name: '加载失败',
+                            avatar: '',
+                            index:''
+                        };
+    
+                        const task = new Promise((resolve) => {
                             wx.cloud.callFunction({
                                 name: 'getCompanyInfo',
                                 data: {
@@ -333,55 +317,179 @@ Page({
                                     index: i
                                 },
                                 success: res => {
-                                    newMember.name = res.result.name
-                                    console.log(i, targetArray, res)
+                                    newMember.name = res.result.name;
+                                    console.log(i, targetArray, res);
+    
                                     fs.writeFile({
                                         filePath: filePath,
                                         data: res.result.avatar,
                                         encoding: 'base64',
-                                        success: res => {
-                                            console.log(res)
-                                            newMember.avatar = filePath
-                                            targetArray.push(newMember)
+                                        success: () => {
+                                            console.log('Write file success:', filePath);
+                                            newMember.avatar = filePath;
+                                            newMember.index = i;
+                                            targetArray.push(newMember);
+                                            resolve();
                                         },
                                         fail: res => {
-                                            console.error(res)
-                                            targetArray.push(newMember)
-                                        },
-                                        complete: res => {
-                                            if (this.data.members.length === memberListSize && this.data.waitList.length === waitSize) {
-                                                this.setData({
-                                                    members: this.data.members,
-                                                    waitList: this.data.waitList,
-                                                    isAdmin: true
-                                                })
-                                                wx.hideLoading()
-                                            }
+                                            console.error('Write file failed:', res);
+                                            targetArray.push(newMember);
+                                            resolve();
                                         }
-                                    })
+                                    });
                                 },
                                 fail: res => {
-                                    console.log(res)
+                                    console.log(res);
                                     wx.showToast({
                                         title: '加载失败',
                                         icon: 'error'
-                                    })
+                                    });
+                                    resolve();
                                 }
-                            })
-                        }
+                            });
+                        });
+    
+                        tasks.push(task);
                     }
+    
+                    await Promise.all(tasks);
+    
+                } catch (error) {
+                    console.error(error);
+                }
+                }
+        }
+        const loadData = async () => {
+            try {
+                const res = await wx.cloud.callFunction({
+                    name: 'getMemberInfo'
+                });
+                let memberSize = res.result.memberSize
+                let waitSize = res.result.waitSize
+                console.log(res)
+                await processMembers(memberSize, waitSize, this.data.members, 'member', memberSize)
+                await processMembers(memberSize, waitSize, this.data.waitList, 'wait', waitSize)
+                this.setData({
+                    members: this.data.members,
+                    waitList: this.data.waitList,
+                    isAdmin: true
+                });
+            } catch (error) {
+                console.error(error);
+                wx.showToast({
+                    title: '加载失败',
+                    icon: 'error'
+                });
+            } finally {
+                wx.hideLoading();
+            }
 
+        };
+
+        loadData();
+
+    },
+
+    onApproveMember(e){
+        wx.showLoading({
+            title: '处理中',
+        })
+        let index = e.currentTarget.dataset.index;
+        const target = this.data.waitList[index].index
+        wx.cloud.callFunction({
+            name: 'approveMember',
+            data:{
+                index: target
+            },
+            success: res => {
+                wx.hideLoading()
+                if(res.result.isSuccess){
+                    console.log('处理成功')
+                    this.onShowCompanyInfo()
+                }else{
+                    console.log(res)
+                    wx.showToast({
+                        title: '通过失败！',
+                      })
                 }
             },
             fail: res => {
                 console.log(res)
                 wx.hideLoading()
                 wx.showToast({
-                    title: '加载失败',
-                    icon: 'error'
+                  title: '通过失败！',
                 })
             }
         })
-    }
+    },
 
+    onDeleteMember(e){
+        wx.showLoading({
+            title: '处理中',
+        })
+        let index = e.currentTarget.dataset.index;
+        const target = this.data.members[index].index
+        wx.cloud.callFunction({
+            name: 'deleteMember',
+            data:{
+                type: 'member',
+                index: target
+            },
+            success: res => {
+                wx.hideLoading()
+                if(res.result.isSuccess){
+                    console.log('删除成功')
+                    this.onShowCompanyInfo()
+                }else{
+                    console.log(res)
+                    wx.showToast({
+                        title: '删除失败！',
+                      })
+                }
+            },
+            fail: res => {
+                console.log(res)
+                wx.hideLoading()
+                wx.showToast({
+                  title: '通过失败！',
+                })
+            }
+        })
+
+    },
+
+    onDeleteWait(e){
+        wx.showLoading({
+            title: '处理中',
+        })
+        let index = e.currentTarget.dataset.index;
+        const target = this.data.waitList[index].index
+        wx.cloud.callFunction({
+            name: 'deleteMember',
+            data:{
+                type: 'wait',
+                index: target
+            },
+            success: res => {
+                wx.hideLoading()
+                if(res.result.isSuccess){
+                    console.log('删除成功')
+                    this.onShowCompanyInfo()
+                }else{
+                    console.log(res)
+                    wx.showToast({
+                        title: '删除失败！',
+                      })
+                }
+            },
+            fail: res => {
+                console.log(res)
+                wx.hideLoading()
+                wx.showToast({
+                  title: '通过失败！',
+                })
+            }
+        })
+
+    }
 })
