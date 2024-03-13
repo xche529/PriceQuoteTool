@@ -8,7 +8,7 @@ const cloud = require('wx-server-sdk');
 
 var fonts = {
     Roboto: {
-        normal: 'fonts/Roboto-Regular.ttf',
+        normal: 'fonts/Deng.ttf',
         bold: 'fonts/Roboto-Medium.ttf',
         italics: 'fonts/Roboto-Italic.ttf',
         bolditalics: 'fonts/Roboto-MediumItalic.ttf'
@@ -25,23 +25,21 @@ exports.main = async (event, context) => {
     const transformers = event.products
     const wxContext = cloud.getWXContext();
 
-    function returnID(id) {
-        return {
-            id: id
-        }
-    }
     const docDefinition = {
         content: ['Test',
             {
                 table: {
                     body: [
-                        ['c1', 'c2', 'c3'],
+                        ['单位：rr', 'c2', 'c3'],
                         ['c11', 'c12', 'c13'],
                         ['c21', 'c22', 'c23']
                     ]
                 }
             }
-        ]
+        ],
+        defaultStyle:{
+            font: 'Roboto'
+        }
     }
 
     const pdfDoc = printer.createPdfKitDocument(docDefinition)
