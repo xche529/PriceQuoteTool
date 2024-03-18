@@ -99,15 +99,28 @@ Page({
 
   onChangePriceFactor: function (event) {
     let costFactor = event.detail.value - 100;
-    console.log('new factor:', costFactor)
     let index = event.currentTarget.dataset.index;
     let selectedList = this.data.selectedList;
     selectedList[index].costFactor = costFactor;
     this.setData({
       selectedList: selectedList
     });
-    console.log('new factor:', costFactor)
   },
+
+  onChangeNumber: function (event) {
+      console
+    let number = event.detail.value;
+    let index = event.currentTarget.dataset.index;
+    let selectedList = this.data.selectedList;
+    console.log('new number: ' + number)
+    console.log('index: ' + index)
+    console.log(selectedList[index].number)
+    selectedList[index].number = number;
+    this.setData({
+      selectedList: selectedList
+    });
+  },
+
 
   onInputAllCostFactor: function (event) {
     let value = event.detail.value;

@@ -4,11 +4,11 @@ Page({
   data: {
     selectedCapacityIndex: '',
     selectedCapacityValue: '',
-    isUsingCapacity: false,
+    isUsingCapacity: true,
 
     selectedMaterialIndex: 0,
     selectedMaterialValue: '',
-    isUsingMaterial: false,
+    isUsingMaterial: true,
 
     selectedTypeIndex: 0,
     selectedTypeValue: '',
@@ -130,6 +130,7 @@ Page({
     let target = getApp().globalData.selectedTransformer;
     target = {...this.data.tempList[index]};
     target.costFactor = 100;
+    target.number = 1;
     getApp().selectTransformer(target);
     wx.reLaunch({
       url: '/pages/index/index'

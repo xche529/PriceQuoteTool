@@ -1,34 +1,35 @@
 <template name="transformer">
-  <view>型号： {{name}}</view>
-  <view>材料： {{material}}</view>
-  <view>电压： {{voltage}}kV</view>
-  <vied>容量： {{capacity}}kVA</vied>
-  <view>价格： {{price}}元</view>
+    <view>型号： {{name !== undefined ? name : '无数据'}}</view>
+    <view>材料： {{material !== undefined ? material : '无数据'}}</view>
+    <view>电压： {{voltage !== undefined ? voltage + 'kV' : '无数据'}}</view>
+    <view>容量： {{capacity !== undefined ? capacity + 'kVA' : '无数据'}}</view>
+    <view>价格： {{price !== undefined ? price + '元' : '无数据'}}</view>
 </template>
 
 <view class="header">
-  <button size="mini" bind:tap="onLogin" class="headerButton" hidden="{{isLoggedIn}}">登录</button>
-  <button size="mini" class="headerButton" type="warn" bind:tap="onLogoff" hidden="{{!isLoggedIn}}">退出登录</button>
-  <view>{{userName}}</view>
-  <image src="{{userAvatar}}" class="headerAvatar" mode="" hidden="{{!isLoggedIn}}" bind:tap="onUserSetting" />
-  <view hidden="{{isLoggedIn}}">未登录</view>
+    <button size="mini" bind:tap="onLogin" class="headerButton" hidden="{{isLoggedIn}}">登录</button>
+    <button size="mini" class="headerButton" type="warn" bind:tap="onLogoff" hidden="{{!isLoggedIn}}">退出登录</button>
+    <view>{{userName}}</view>
+    <image src="{{userAvatar}}" class="headerAvatar" mode="" hidden="{{!isLoggedIn}}" bind:tap="onUserSetting" />
+    <view hidden="{{isLoggedIn}}">未登录</view>
 </view>
 
 
 <view class="displayBox">
-  <view class="box" bind:tap="onSelect">
-    <view>
-      <image src="../../image/Search.jpg" class="main-page-image" mode="widthFix"></image>
+    <view class="box" bind:tap="onSelect">
+        <view>
+            <image src="../../image/Search.jpg" class="main-page-image" mode="widthFix"></image>
+        </view>
+        <view>选择变压器型号</view>
     </view>
-    <view>选择变压器型号</view>
-  </view>
 
-  <view>
-    <view class="emptyLine"></view>
-    当前选择型号：
-    <view class="emptyLine"></view>
-    <template is="transformer" data="{{...selectedTransformer}}" />
-  </view>
+    <view>
+        <view class="emptyLine"></view>
+        当前选择型号：
+        <view class="emptyLine"></view>
+        <template is="transformer" data="{{...selectedTransformer}}" wx:if="{{selectedTransformer}}" />
+        <view wx:else>请先选择型号！</view>
+    </view>
 
 </view>
 <view class="emptyLine"></view>
@@ -39,30 +40,37 @@
 <view class="emptyLine"></view>
 
 <view class="displayBoxWithMargin">
-  <view>修改全部报价：</view>
-  <input class="inputBar" type="digit" placeholder="请输入百分比" value="{{inputCostFactor}}" bindinput="onInputAllCostFactor" />
-  <button type="primary" size="mini" bind:tap="onUpdateAllCostFactor">应用</button>
+    <view>修改全部报价：</view>
+    <input class="inputBar" type="digit" placeholder="请输入百分比" value="{{inputCostFactor}}" bindinput="onInputAllCostFactor" />
+    <button type="primary" size="mini" bind:tap="onUpdateAllCostFactor">应用</button>
 </view>
 
 <view class="emptyLine"></view>
 <text class="box"> 已选变压器：</text>
 <view wx:for="{{selectedList}}" wx:for-index="i" wx:for-item="transformer" class="transformer">
-  <view class="indexNumber">{{1 + i}}</view>
+    <view class="indexNumber">{{1 + i}}</view>
+    <view>
+        <view>型号： {{transformer.name !== undefined ? transformer.name : '无数据'}}</view>
+        <view>材料： {{transformer.material !== undefined ? transformer.material : '无数据'}}</view>
+        <view>电压： {{transformer.voltage !== undefined ? transformer.voltage + 'kV' : '无数据'}}</view>
+        <view>容量： {{transformer.capacity !== undefined ? transformer.capacity + 'kVA' : '无数据'}}</view>
+        <view>价格： {{transformer.price !== undefined ? transformer.price + '元' : '无数据'}}</view>
+        <view>终价： {{transformer.price !== undefined ? transformer.price * transformer.costFactor / 100  + '元' : '无数据'}} </view>
+        <view>总价： {{transformer.price !== undefined ? transformer.price * transformer.costFactor / 100 * transformer.number + '元' : '无数据'}} </view>
 
-  <view>
-    <view>型号： {{transformer.name}}</view>
-    <view>材料： {{transformer.material}}</view>
-    <view>电压： {{transformer.voltage}}kV</view>
-    <vied>容量： {{transformer.capacity}}kVA</vied>
-    <view>价格： {{transformer.price}}元</view>
-  </view>
-  <view class="picker">
-    <picker range="{{costFactorArray}}" value="{{transformer.costFactor + 100}}" bindchange="onChangePriceFactor" data-index="{{i}}">选择报价: {{transformer.costFactor}}%</picker>
-  </view>
-  <view><button type="warn" size="mini" bind:tap="onDeleteTransformer" data-index="{{i}}" class="deleteButton">删除</button></view>
+    </view>
+    <view class="picker">
+        <picker range="{{costFactorArray}}" value="{{transformer.costFactor + 100}}" bindchange="onChangePriceFactor" data-index="{{i}}">选择报价: {{transformer.costFactor}}%</picker>
+        <view class="emptyLine"></view>
+        
+        数量：
+        <input type="digit" placeholder="请输入数量" value="{{transformer.number}}" bindinput="onChangeNumber" data-index="{{i}}"/>
+    </view>
+
+    <view><button type="warn" size="mini" bind:tap="onDeleteTransformer" data-index="{{i}}" class="deleteButton">删除</button></view>
 </view>
 <button class="bottomButton" type="primary" size="mini" bind:tap="onResult">结算</button>
 
 <view class="bottomBlock">
-  没了
+    没了
 </view>
