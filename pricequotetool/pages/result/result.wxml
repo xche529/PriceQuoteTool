@@ -1,19 +1,30 @@
+<wxs module="utils">
+    function ftoFixed(num) {
+        return num.toFixed(2);
+    }
+    module.exports.ftoFixed = ftoFixed;
+</wxs>
+
 <view>
-  总价格：{{totalCost}}元
+    总价格：{{totalCost}}元
 </view>
 <Text>明细：</Text>
 <view wx:for="{{selectedList}}" wx:for-index="i" wx:for-item="transformer" class="transformer">
-  <view class="indexNumber">{{1 + i}}</view>
-  <view class="displayBox">
-    <view>型号： {{transformer.name}} {{transformer.material}}</view>
-    <view>电压： {{transformer.voltage}}kV</view>
-    <vied>容量： {{transformer.capacity}}kVA</vied>
-    <view>价格： {{transformer.price}}元</view>
-  </view>
-  <view>
-    <view class="priceInfo">相乘系数：{{transformer.costFactor}}%</view>
-    <view>最终价格：{{(transformer.costFactor * transformer.price / 100)}}元</view>
-  </view>
+    <view class="indexNumber">{{1 + i}}</view>
+    <view class="displayBox">
+        <view>型号： {{transformer.name !== undefined ? transformer.name : '无数据'}}</view>
+        <view>材料： {{transformer.material !== undefined ? transformer.material : '无数据'}}</view>
+        <view>电压： {{transformer.voltage !== undefined ? transformer.voltage + 'kV' : '无数据'}}</view>
+        <view>容量： {{transformer.capacity !== undefined ? transformer.capacity + 'kVA' : '无数据'}}</view>
+        <view>价格： {{transformer.price !== undefined ? utils.ftoFixed(transformer.price) + '元' : '无数据'}}</view>
+
+    </view>
+    <view class="displayBox">
+        <view>报价：{{transformer.costFactor !== undefined ? transformer.costFactor + '%' : '无数据'}}</view>
+        <view>数量： {{transformer.number !== undefined ? transformer.number + '个' : '无数据'}}</view>
+        <view>终价： {{transformer.price !== undefined ? utils.ftoFixed(transformer.price * transformer.costFactor / 100)  + '元' : '无数据'}} </view>
+        <view>总价： {{transformer.price !== undefined ? utils.ftoFixed((transformer.price * transformer.costFactor / 100 * transformer.number)) + '元' : '无数据'}} </view>
+    </view>
 </view>
 <view class="center-container">
 </view>

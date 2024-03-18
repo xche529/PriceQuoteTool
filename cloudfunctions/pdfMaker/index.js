@@ -16,9 +16,9 @@ const generatePDF = (docDefinition, currentTime) => {
         const fonts = {
             Roboto: {
                 normal: 'fonts/Deng.ttf',
-                bold: 'fonts/Roboto-Medium.ttf',
-                italics: 'fonts/Roboto-Italic.ttf',
-                bolditalics: 'fonts/Roboto-MediumItalic.ttf'
+                bold: 'fonts/Thick.ttf',
+                italics: 'fonts/Deng.ttf',
+                bolditalics: 'fonts/Deng.ttf'
             }
         };
 
@@ -73,7 +73,7 @@ exports.main = async (event, context) => {
     cloudInit();
     const res = await cloud.downloadFile({
         fileID: fileID,
-      })
+    })
     const buffer = res.fileContent
     const logoPath = null;
     console.log(buffer)
@@ -85,23 +85,38 @@ exports.main = async (event, context) => {
                     text: '',
                     body: [
                         [
-                            buffer ? { image: buffer, width: 100 } : ''
-                        , {
-                            table: {
-                                body: [
-                                    ['单位：国加电器设备（北京）有限公司', '地址：北京市丰台区未来假日花园51-15'],
-                                    ['电话：010-8639 8618转802', '邮编：100068'],
-                                    ['网址：http://wwwx.hcbyq.com', 'E-mail：marcy.han@npeec.com']
-                                ]
-                            },
-                            layout: 'noBorders',
-                            fontSize: 8,
-                        }]
+                            buffer ? {
+                                image: buffer,
+                                width: 100
+                            } : '', {
+                                table: {
+                                    body: [
+                                        ['单位：国加电器设备（北京）有限公司', '地址：北京市丰台区未来假日花园51-15'],
+                                        ['电话：010-8639 8618转802', '邮编：100068'],
+                                        ['网址：http://wwwx.hcbyq.com', 'E-mail：marcy.han@npeec.com']
+                                    ]
+                                },
+                                layout: 'noBorders',
+                                fontSize: 8,
+                            }
+                        ]
                     ]
                 },
                 layout: 'noBorders',
             },
+            {
+                text: '报   价   单',
+                style: 'header',
+                alignment: 'center'
+            }
         ],
+        styles: {
+            header: {
+                fontSize: 18,
+                bold: true,
+                alignment: 'justify'
+            }
+        },
         defaultStyle: {
             font: 'Roboto'
         }
@@ -109,30 +124,93 @@ exports.main = async (event, context) => {
 
     const transformerTable = {
         table: {
-            widths: ['*', '*', '*', '*', 'auto'],
+            widths: ['*', 'auto', 'auto', 'auto', '*', '*', '*', 'auto'],
             headerRows: 1,
-            body: [
-            ],
+            body: [],
             layout: 'noBorders',
             fontSize: 8,
         }
     };
 
     const transformers = event.products;
-    if (Array.isArray(transformers)) {
-        transformerTable.table.body.push(['型号', '材料', '电压', '容量', '价格']);
+    const header = {
+        fontSize: 10,
+        bold: true,
+        alignment: 'justify'
     }
-    
+
+    if (Array.isArray(transformers)) {
+
+        transformerTable.table.body.push([{
+            text: '型号',
+            style: header
+        }, {
+            text: '材料',
+            style: header
+        }, {
+            text: '电压',
+            style: header
+        }, {
+            text: '容量',
+            style: header
+        }, {
+            text: '数量（台）',
+            style: header
+        }, {
+            text: '单价（元）',
+            style: header
+        }, {
+            text: '总价（元）',
+            style: header
+        }, {
+            text: '备注',
+            style: header
+        }]);
+    }
+    let totalCost = 0;
+    let totalNumber = 0;
     transformers.forEach(transformer => {
+        totalCost += (transformer.price * transformer.costFactor / 100 * transformer.number);
+        totalNumber += parseFloat(transformer.number);
         const detail = [
             transformer.name || '',
             transformer.material || '',
             transformer.voltage || '',
             transformer.capacity || '',
-            transformer.price || ''
+            transformer.number || '',
+            (transformer.price * transformer.costFactor / 100).toFixed(2) || '',
+            (transformer.price * transformer.costFactor / 100 * transformer.number).toFixed(2) || '',
+            transformer.note || ''
         ];
         transformerTable.table.body.push(detail);
     })
+    const totalRow = [{
+        text: '总计',
+        style: header,
+        fillColor: '#ffc000'
+    }, {
+        text: '人民币大写(未完成）：',
+        style: header,
+        colSpan: 3,
+        fillColor: '#ffc000'
+    }, , , {
+        text: totalNumber,
+        style: header,
+        fillColor: '#ffc000'
+    }, {
+        text: '',
+        style: header,
+        fillColor: '#ffc000'
+    }, {
+        text: totalCost.toFixed(2),
+        style: header,
+        fillColor: '#ffc000'
+    }, {
+        text: '',
+        style: header,
+        fillColor: '#ffc000'
+    }]
+    transformerTable.table.body.push(totalRow);
 
     docDefinition.content.push(transformerTable);
 

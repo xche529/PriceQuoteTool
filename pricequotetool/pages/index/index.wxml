@@ -6,6 +6,13 @@
     <view>价格： {{price !== undefined ? price + '元' : '无数据'}}</view>
 </template>
 
+<wxs module="utils">
+  function ftoFixed(num) {
+    return num.toFixed(2);
+  }
+  module.exports.ftoFixed = ftoFixed;
+</wxs>
+
 <view class="header">
     <button size="mini" bind:tap="onLogin" class="headerButton" hidden="{{isLoggedIn}}">登录</button>
     <button size="mini" class="headerButton" type="warn" bind:tap="onLogoff" hidden="{{!isLoggedIn}}">退出登录</button>
@@ -54,9 +61,9 @@
         <view>材料： {{transformer.material !== undefined ? transformer.material : '无数据'}}</view>
         <view>电压： {{transformer.voltage !== undefined ? transformer.voltage + 'kV' : '无数据'}}</view>
         <view>容量： {{transformer.capacity !== undefined ? transformer.capacity + 'kVA' : '无数据'}}</view>
-        <view>价格： {{transformer.price !== undefined ? transformer.price + '元' : '无数据'}}</view>
-        <view>终价： {{transformer.price !== undefined ? transformer.price * transformer.costFactor / 100  + '元' : '无数据'}} </view>
-        <view>总价： {{transformer.price !== undefined ? transformer.price * transformer.costFactor / 100 * transformer.number + '元' : '无数据'}} </view>
+        <view>价格： {{transformer.price !== undefined ? utils.ftoFixed(transformer.price) + '元' : '无数据'}}</view>
+        <view>终价： {{transformer.price !== undefined ? utils.ftoFixed(transformer.price * transformer.costFactor / 100)  + '元' : '无数据'}} </view>
+        <view>总价： {{transformer.price !== undefined ? utils.ftoFixed((transformer.price * transformer.costFactor / 100 * transformer.number)) + '元' : '无数据'}} </view>
 
     </view>
     <view class="picker">
