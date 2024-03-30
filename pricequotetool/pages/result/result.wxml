@@ -5,10 +5,29 @@
     module.exports.ftoFixed = ftoFixed;
 </wxs>
 
+<input class="inputBar" placeholder="请输入收件人" value="{{to}}" bindinput="onInputTo" />
+<input class="inputBar" placeholder="请输入发件人" value="{{from}}" bindinput="onInputFrom" />
+<input class="inputBar" placeholder="请输入手机号" value="{{phone}}" bindinput="onInputPhone" />
+<input class="inputBar" placeholder="请输入微信号" value="{{wechatID}}" bindinput="onInputWechatID" />
+<input class="inputBar" placeholder="请输入项目名称" value="{{projectName}}" bindinput="onInputProjectName" />
+
+
+<view hidden='{{!isAddingExtraInfo}}'>
+    <input class="inputBar" placeholder="请输入副本" value="{{copy}}" bindinput="onInputCopy" />
+    <input class="inputBar" placeholder="请输入电话" value="{{telephone}}" bindinput="onInputTelephone" />
+    <input class="inputBar" placeholder="请输入传真" value="{{fox}}" bindinput="onInputFox" />
+    <input class="inputBar" placeholder="请输入单位" value="{{company}}" bindinput="onInputCompany" />
+    <input class="inputBar" placeholder="请输入使用地点" value="{{location}}" bindinput="onInputLocation" />
+</view>
+<switch id="CSwitch" class="switch" checked="{{isAddingExtraInfo}}" bindchange="onAddExtraInfo">是否填入更多信息</switch>
+
 <view>
     总价格：{{totalCost}}元
 </view>
-<Text>明细：</Text>
+<view>
+    明细：
+</view>
+
 <view wx:for="{{selectedList}}" wx:for-index="i" wx:for-item="transformer" class="transformer">
     <view class="indexNumber">{{1 + i}}</view>
     <view class="displayBox">

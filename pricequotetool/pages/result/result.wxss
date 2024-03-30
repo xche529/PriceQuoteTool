@@ -1,34 +1,39 @@
-.transformer{
-  width: 95%;
-  padding: 1%;
-  margin: 1%;
-  border-color: black;
-  border-style: solid;
-  display:flex;
+.transformer {
+    width: 95%;
+    padding: 1%;
+    margin: 1%;
+    border-color: black;
+    border-style: solid;
+    display: flex;
 }
 
-.priceInfo{
-  margin: 2%;
+.priceInfo {
+    margin: 2%;
 }
 
-.displayBox{
-  width: 40%;
-  margin: 2%;
+.displayBox {
+    width: 40%;
+    margin: 2%;
 }
-.indexNumber{
-  margin-top: 8%;
-  margin-left: 2%;
-  margin-right: 2%;
-  font-size: 30px;
+
+.indexNumber {
+    margin-top: 8%;
+    margin-left: 2%;
+    margin-right: 2%;
+    font-size: 30px;
 }
-.emptyLine{
-  margin: 7%;
+
+.emptyLine {
+    margin: 7%;
 }
 
 .center-container {
-  width: 100%;
-  padding-left: 25%;
-  padding-right: 25%;
-  align-items: center;
+    width: 100%;
+    padding-left: 25%;
+    padding-right: 25%;
+    align-items: center;
 }
 
+.inputBar {
+    margin: 5%;
+}

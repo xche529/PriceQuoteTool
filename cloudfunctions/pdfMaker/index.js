@@ -62,6 +62,22 @@ const uploadFileToCloud = (filePath, currentTime) => {
     });
 };
 
+function toChinese(n) {
+    if (n === 0)
+        return "零";
+    if (!/^(0|[1-9]\d*)(\.\d+)?$/.test(n))
+        return "";
+    var unit = "仟佰拾亿仟佰拾万仟佰拾元角分",
+        str = "";
+    n += "00";
+    var p = n.indexOf('.');
+    if (p >= 0)
+        n = n.substring(0, p) + n.substr(p + 1, 2);
+    unit = unit.substr(unit.length - n.length);
+    for (var i = 0; i < n.length; i++)
+        str += '零壹贰叁肆伍陆柒捌玖'.charAt(n.charAt(i)) + unit.charAt(i);
+    return str.replace(/零(仟|佰|拾|角)/g, "零").replace(/(零)+/g, "零").replace(/零(万|亿|元)/g, "$1").replace(/(亿)万/g, "$1$2").replace(/^元零?|零分/g, "").replace(/元$/g, "元整");
+}
 
 // 云函数入口函数
 exports.main = async (event, context) => {
@@ -77,17 +93,26 @@ exports.main = async (event, context) => {
     const buffer = res.fileContent
     const logoPath = null;
     console.log(buffer)
+    const year = currentDate.getFullYear();
+    let month = currentDate.getMonth() + 1;
+    let day = currentDate.getDate();
+    if (month.length < 2) {
+        month = '0' + month;
+    }
+    if (day.length < 2) {
+        day = '0' + day;
+    }
+
     const docDefinition = {
-        content: ['Test',
-            {
+        content: [{
                 table: {
-                    widths: [200, '*'],
+                    widths: [130, '*'],
                     text: '',
                     body: [
                         [
                             buffer ? {
                                 image: buffer,
-                                width: 100
+                                width: 110
                             } : '', {
                                 table: {
                                     body: [
@@ -96,14 +121,60 @@ exports.main = async (event, context) => {
                                         ['网址：http://wwwx.hcbyq.com', 'E-mail：marcy.han@npeec.com']
                                     ]
                                 },
+                                widths: ['*', '*'],
                                 layout: 'noBorders',
-                                fontSize: 8,
+                                fontSize: 10.5,
                             }
                         ]
                     ]
                 },
                 layout: 'noBorders',
             },
+            {
+                table: {
+                    widths: ['*', '*'],
+                    body: [
+                        ['', ''],
+                        ['收件人：' + event.to, '发件人：' + event.from],
+                        ['副 本：' + event.copy, '手 机：' + event.phone],
+                        ['电 话：' + event.telephone, '微 信：' + event.wechatID],
+                        ['传 真：' + event.fox, '文件页数：' + '1'],
+                        ['单 位：' + event.company, '报价日期：' + year + '年' + month + '月' + day + '日'],
+                        ['使用地点：' + event.location, ''],
+                        [{
+                            text: '项目名称：' + event.projectName,
+                            colSpan: 2,
+                        }, ''],
+                        ['', ''],
+                    ]
+                },
+                layout: {
+                    vLineWidth: function (i, node) {
+                        return 0;
+                    },
+                    paddingTop: function (i, node) {
+                        let top = 2;
+                        if (i === node.table.body.length - 1) {
+                            top = 0.9;
+                        } else if (i === 0) {
+                            top = 0.9;
+                        }
+                        return top;
+                    },
+                    paddingBottom: function (i, node) {
+                        let bottom = 2;
+                        if (i === node.table.body.length - 1) {
+                            bottom = 0;
+                        } else if (i === 0) {
+                            bottom = 0;
+                        }
+                        return bottom;
+                    },
+
+                }
+            },
+
+
             {
                 text: '报   价   单',
                 style: 'header',
@@ -124,7 +195,7 @@ exports.main = async (event, context) => {
 
     const transformerTable = {
         table: {
-            widths: ['*', 'auto', 'auto', 'auto', '*', '*', '*', 'auto'],
+            widths: ['*', '*', 'auto', 'auto', '*', '*', '*', 'auto'],
             headerRows: 1,
             body: [],
             layout: 'noBorders',
@@ -189,7 +260,7 @@ exports.main = async (event, context) => {
         style: header,
         fillColor: '#ffc000'
     }, {
-        text: '人民币大写(未完成）：',
+        text: '人民币大写：' + toChinese(totalCost.toFixed(2)),
         style: header,
         colSpan: 3,
         fillColor: '#ffc000'
@@ -214,6 +285,41 @@ exports.main = async (event, context) => {
 
     docDefinition.content.push(transformerTable);
 
+    const finalTable = {
+        table: {
+            body: [
+                ['说明：  ', '1. 以上价格含税含运费，含风机、温控（带485通讯接口），不锈钢外壳（底板，整件）；'],
+                ['', '2. 质量承诺：若出现质量问题，一年内免费更换，三年保修，终身维护；'],
+                ['', '3. 技术标准：国标；'],
+                ['', '4. 报价有效期：3天。']
+            ]
+        },
+        widths: ['auto', '*'],
+        layout: {
+            vLineWidth: function (i, node) {
+                return 0;
+            },
+            hLineWidth: function (i, node) {
+                return 0;
+            },
+
+            paddingTop: function (i, node) {
+           if (i === 0) {
+               return 20;
+            }
+
+                return 5;
+            },
+            paddingBottom: function (i, node) {
+                return 5;
+            },
+
+        },
+
+        fontSize: 11,
+    }
+
+    docDefinition.content.push(finalTable);
 
     try {
         const filePath = await generatePDF(docDefinition, currentTime);

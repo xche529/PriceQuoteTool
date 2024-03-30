@@ -5,6 +5,85 @@ Page({
         selectedList: [],
         totalCost: 0,
         logo: null,
+        isAddingExtraInfo: false,
+        to: '',
+        from: '',
+        phone: '',
+        wechatID: '',
+        projectName: '',
+        copy: '',
+        telephone: '',
+        fox: '',
+        company: '',
+        location: '',
+    },
+
+    onInputTo: function (event) {
+        let value = event.detail.value;
+        this.setData({
+            to: value
+        })
+    },
+
+    onInputFrom: function (event) {
+        let value = event.detail.value;
+        this.setData({
+            from: value
+        })
+    },
+
+    onInputPhone: function (event) {
+        let value = event.detail.value;
+        this.setData({
+            phone: value
+        })
+    },
+    onInputWechatID: function (event) {
+        let value = event.detail.value;
+        this.setData({
+            wechatID: value
+        })
+    },
+    onInputProjectName: function (event) {
+        let value = event.detail.value;
+        this.setData({
+            projectName: value
+        })
+    },
+    onInputCopy: function (event) {
+        let value = event.detail.value;
+        this.setData({
+            copy: value
+        })
+    },
+    onInputTelephone: function (event) {
+        let value = event.detail.value;
+        this.setData({
+            telephone: value
+        })
+    },
+    onInputFox: function (event) {
+        let value = event.detail.value;
+        this.setData({
+            fox: value
+        })
+    },
+    onInputCompany: function (event) {
+        let value = event.detail.value;
+        this.setData({
+            company: value
+        })
+    },
+    onInputLocation: function (event) {
+        let value = event.detail.value;
+        this.setData({
+            location: value
+        })
+    },
+    onAddExtraInfo: function(event){
+        this.setData({
+            isAddingExtraInfo: !this.data.isAddingExtraInfo
+        })
     },
 
     onLoad: function () {
@@ -38,6 +117,16 @@ Page({
             name: 'pdfMaker',
             data: {
                 products: this.data.selectedList,
+                to: this.data.to,
+                from: this.data.from,
+                phone: this.data.phone,
+                wechatID: this.data.wechatID,
+                projectName: this.data.projectName,
+                copy: this.data.copy,
+                telephone: this.data.telephone,
+                fox: this.data.fox,
+                company: this.data.company,
+                location: this.data.location,
             },
             success: async (res) => {
                 console.log(res)
