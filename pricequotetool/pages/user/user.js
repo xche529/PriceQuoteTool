@@ -95,8 +95,19 @@ Page({
         })
     },
 
-    onUpdateDatabase(event) {
-
+    updateDatabase(fileID) {
+        wx.cloud.callFunction({
+            name: 'updateDatabase',
+            data: {
+                fileID: fileID
+            },
+            success: res => {
+                console.log(res)
+            },
+            fail: res => {
+                console.error(res)
+            }
+        })
     },
 
     onChooseFile() {
@@ -113,11 +124,17 @@ Page({
     },
 
     uploadExcel(path) {
+        // wx.showLoading({
+        //     title: '上传中',
+        //     mask: true
+        // })
+        const that = this;
         wx.cloud.uploadFile({
-            cloudPath: 'excel/' + new Date().getTime() + '.xls',
+            cloudPath: 'excel/' + new Date().getTime() + '.xlsx',
             filePath: path,
-            success: res =>{
+            success: res => {
                 console.log('Upload success', res.fileID)
+                that.updateDatabase(res.fileID);
             }
         })
     },
