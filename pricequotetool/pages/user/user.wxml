@@ -3,6 +3,12 @@
 </view>
 
 <view class="emptyLine"></view>
+
+<view hidden='{{isCompany || isInvite}}'>
+    <button type="primary" bind:tap="onChooseFile">上传变压器信息</button>
+    <view class="emptyLine"></view>
+</view>
+
 <view hidden='{{isCompany || isInvite}}'>
     <button type="primary" bind:tap="onShowEdit">修改账号信息</button>
     <view class="emptyLine"></view>

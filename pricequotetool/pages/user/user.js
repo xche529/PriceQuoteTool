@@ -95,6 +95,33 @@ Page({
         })
     },
 
+    onUpdateDatabase(event) {
+
+    },
+
+    onChooseFile() {
+        const that = this;
+        wx.chooseMessageFile({
+            count: 1,
+            type: 'file',
+            success(res) {
+                let path = res.tempFiles[0].path;
+                console.log("Path:" + path);
+                that.uploadExcel(path);
+            }
+        })
+    },
+
+    uploadExcel(path) {
+        wx.cloud.uploadFile({
+            cloudPath: 'excel/' + new Date().getTime() + '.xls',
+            filePath: path,
+            success: res =>{
+                console.log('Upload success', res.fileID)
+            }
+        })
+    },
+
     onInputCompanyName(event) {
         let value = event.detail.value;
         this.setData({
@@ -300,15 +327,15 @@ Page({
             } else {
                 try {
                     const tasks = [];
-    
+
                     for (let i = 0; i < searchSize; i++) {
                         let filePath = wx.env.USER_DATA_PATH + '/avatar' + Math.random().toString(36).substr(2, 15) + '.png';
                         const newMember = {
                             name: '加载失败',
                             avatar: '',
-                            index:''
+                            index: ''
                         };
-    
+
                         const task = new Promise((resolve) => {
                             wx.cloud.callFunction({
                                 name: 'getCompanyInfo',
@@ -319,7 +346,7 @@ Page({
                                 success: res => {
                                     newMember.name = res.result.name;
                                     console.log(i, targetArray, res);
-    
+
                                     fs.writeFile({
                                         filePath: filePath,
                                         data: res.result.avatar,
@@ -348,16 +375,16 @@ Page({
                                 }
                             });
                         });
-    
+
                         tasks.push(task);
                     }
-    
+
                     await Promise.all(tasks);
-    
+
                 } catch (error) {
                     console.error(error);
                 }
-                }
+            }
         }
         const loadData = async () => {
             try {
@@ -390,7 +417,7 @@ Page({
 
     },
 
-    onApproveMember(e){
+    onApproveMember(e) {
         wx.showLoading({
             title: '处理中',
         })
@@ -398,32 +425,32 @@ Page({
         const target = this.data.waitList[index].index
         wx.cloud.callFunction({
             name: 'approveMember',
-            data:{
+            data: {
                 index: target
             },
             success: res => {
                 wx.hideLoading()
-                if(res.result.isSuccess){
+                if (res.result.isSuccess) {
                     console.log('处理成功')
                     this.onShowCompanyInfo()
-                }else{
+                } else {
                     console.log(res)
                     wx.showToast({
                         title: '通过失败！',
-                      })
+                    })
                 }
             },
             fail: res => {
                 console.log(res)
                 wx.hideLoading()
                 wx.showToast({
-                  title: '通过失败！',
+                    title: '通过失败！',
                 })
             }
         })
     },
 
-    onDeleteMember(e){
+    onDeleteMember(e) {
         wx.showLoading({
             title: '处理中',
         })
@@ -431,34 +458,34 @@ Page({
         const target = this.data.members[index].index
         wx.cloud.callFunction({
             name: 'deleteMember',
-            data:{
+            data: {
                 type: 'member',
                 index: target
             },
             success: res => {
                 wx.hideLoading()
-                if(res.result.isSuccess){
+                if (res.result.isSuccess) {
                     console.log('删除成功')
                     this.onShowCompanyInfo()
-                }else{
+                } else {
                     console.log(res)
                     wx.showToast({
                         title: '删除失败！',
-                      })
+                    })
                 }
             },
             fail: res => {
                 console.log(res)
                 wx.hideLoading()
                 wx.showToast({
-                  title: '通过失败！',
+                    title: '通过失败！',
                 })
             }
         })
 
     },
 
-    onDeleteWait(e){
+    onDeleteWait(e) {
         wx.showLoading({
             title: '处理中',
         })
@@ -466,27 +493,27 @@ Page({
         const target = this.data.waitList[index].index
         wx.cloud.callFunction({
             name: 'deleteMember',
-            data:{
+            data: {
                 type: 'wait',
                 index: target
             },
             success: res => {
                 wx.hideLoading()
-                if(res.result.isSuccess){
+                if (res.result.isSuccess) {
                     console.log('删除成功')
                     this.onShowCompanyInfo()
-                }else{
+                } else {
                     console.log(res)
                     wx.showToast({
                         title: '删除失败！',
-                      })
+                    })
                 }
             },
             fail: res => {
                 console.log(res)
                 wx.hideLoading()
                 wx.showToast({
-                  title: '通过失败！',
+                    title: '通过失败！',
                 })
             }
         })
