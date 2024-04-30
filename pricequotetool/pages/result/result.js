@@ -43,6 +43,7 @@ Page({
         this.setData({
             wechatID: value
         })
+
     },
     onInputProjectName: function (event) {
         let value = event.detail.value;
@@ -88,18 +89,20 @@ Page({
 
     onLoad: function () {
         this.setData({
-
-        })
-        this.setData({
             selectedList: getApp().globalData.transSelectedList
         })
         this.calcCost();
         this.widget = this.selectComponent('.widget')
     },
 
+    prepare: function(){
+        this.data.selectedList.foreach(function(transformer){
+            transformer.typeB = transformer.type + '-' + transformer.capacity + '/ 10/0.4'
+        })
+    },
+
     calcCost: function () {
         let totalCost = 0
-
         this.data.selectedList.forEach(function (transformer) {
             totalCost += transformer.price * transformer.costFactor / 100;
         }, this);

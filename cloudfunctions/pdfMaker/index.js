@@ -213,16 +213,22 @@ exports.main = async (event, context) => {
     if (Array.isArray(transformers)) {
 
         transformerTable.table.body.push([{
-            text: '型号',
+            text: '名称',
             style: header
         }, {
-            text: '材料',
+            text: '规格型号',
             style: header
         }, {
-            text: '电压',
+            text: '分接范围',
             style: header
         }, {
-            text: '容量',
+            text: '联结组标号',
+            style: header
+        }, {
+            text: '短路阻抗',
+            style: header
+        }, {
+            text: '制造商',
             style: header
         }, {
             text: '数量（台）',
@@ -244,17 +250,20 @@ exports.main = async (event, context) => {
         totalCost += (transformer.price * transformer.costFactor / 100 * transformer.number);
         totalNumber += parseFloat(transformer.number);
         const detail = [
-            transformer.name || '',
+            transformer.typeA || '',
+            transformer.typeB || '',
+            transformer.typeC || '',
+            transformer.typeD || '',
+            transformer.typeE || '',
+            transformer.producer || '',
             transformer.material || '',
-            transformer.voltage || '',
-            transformer.capacity || '',
             transformer.number || '',
             (transformer.price * transformer.costFactor / 100).toFixed(2) || '',
             (transformer.price * transformer.costFactor / 100 * transformer.number).toFixed(2) || '',
             transformer.note || ''
         ];
         transformerTable.table.body.push(detail);
-    })
+    }) 
     const totalRow = [{
         text: '总计',
         style: header,
